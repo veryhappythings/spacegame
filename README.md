@@ -1,4 +1,4 @@
-# Salvage
+# Spacegame
 
 An idea for a space game that's been stuck in my head for a while now.  Very much in development. It doesn't even work yet.
 
