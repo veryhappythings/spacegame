@@ -3,7 +3,7 @@ require 'socket'
 PACKET_HEADER_LENGTH = 4
 PACKET_HEADER_FORMAT = "N"
 
-module Salvage
+module Spacegame
   class Server
     def initialize(options={})
         @ip = options[:ip] || "0.0.0.0"

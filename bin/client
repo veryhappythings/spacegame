@@ -4,9 +4,3 @@ require 'rubygems'
 $LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
 require 'spacegame'
 
-server = Spacegame::Server.new
-server.start
-while true
-  server.update
-end
-
