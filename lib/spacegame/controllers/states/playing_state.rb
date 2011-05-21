@@ -17,6 +17,8 @@ class PlayingState < State
     #@level = Level.new(self)
 
     @camera = Point.new(0, 0)
+
+    @server = LocalServer.new
   end
 
   def end_game!(score)

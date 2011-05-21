@@ -36,29 +36,17 @@ class KeyboardController
   end
 
   def update(dt)
-    # Actual controls - could use a refactor
-    if button_down? Gosu::Button::KbLeft or button_down? Gosu::Button::KbA then
-      event = Event.new(:kb_left_down, :dt => dt)
-      @listeners.each do |l|
-        l.handle_event(event)
-      end
-    end
-    if button_down? Gosu::Button::KbRight or button_down? Gosu::Button::KbD then
-      event = Event.new(:kb_right_down, :dt => dt)
-      @listeners.each do |l|
-        l.handle_event(event)
-      end
-    end
-    if button_down? Gosu::Button::KbUp or button_down? Gosu::Button::KbW then
-      event = Event.new(:kb_up_down, :dt => dt)
-      @listeners.each do |l|
-        l.handle_event(event)
-      end
-    end
-    if button_down? Gosu::Button::KbDown or button_down? Gosu::Button::KbS then
-      event = Event.new(:kb_down_down, :dt => dt)
-      @listeners.each do |l|
-        l.handle_event(event)
+    controls = {
+      :kb_left_down => [Gosu::Button::KbLeft, Gosu::Button::KbA],
+      :kb_right_down => [Gosu::Button::KbRight, Gosu::Button::KbD],
+      :kb_up_down => [Gosu::Button::KbUp, Gosu::Button::KbW],
+      :kb_down_down => [Gosu::Button::KbDown, Gosu::Button::KbS],
+    }
+    controls.each_pair do |signal, keys|
+      if keys.any? { |key| button_down? key }
+        @listeners.each do |l|
+          l.handle_event(Event.new(:kb_left_down, :dt => dt))
+        end
       end
     end
   end
