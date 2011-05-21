@@ -1,0 +1,6 @@
+Local server
+Client connects to local server
+Server receives actions from client
+Client receives actions from server
+Network server, functions same way
+
