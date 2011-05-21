@@ -11,9 +11,7 @@ class PlayingState < State
     @keyboard_controller = KeyboardController.new(self)
     @scene_controller = SceneController.new(self)
 
-    @target = Gosu::Image.new(@window, 'media/target.png', false)
-
-    #@player = Player.new(self)
+    @player = Player.new(self)
     #@player.warp(400, 300)
 
     #@level = Level.new(self)
@@ -28,7 +26,6 @@ class PlayingState < State
 
   def draw
     @scene_controller.draw(@camera)
-    @target.draw(@window.mouse_x, @window.mouse_y, 0)
   end
 
   def relative_to_absolute(x, y)
