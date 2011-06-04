@@ -2,6 +2,7 @@ class PlayingState < State
   attr_reader :window
   attr_reader :keyboard_controller
   attr_reader :scene_controller
+  attr_reader :timestamp
 
   attr_accessor :camera
 
@@ -11,14 +12,11 @@ class PlayingState < State
     @keyboard_controller = KeyboardController.new(self)
     @scene_controller = SceneController.new(self)
 
-    @player = Player.new(self)
-    #@player.warp(400, 300)
-
-    #@level = Level.new(self)
-
+    @timestamp = Time.now.to_i
     @camera = Point.new(0, 0)
 
     @server = LocalServer.new
+    @server.send_event(Event.new(:connect))
   end
 
   def end_game!(score)
@@ -45,14 +43,50 @@ class PlayingState < State
   end
 
   def update(dt)
+    start_time = Time.now.to_f
+
     # Controls
-    @keyboard_controller.update(dt)
+    events = @keyboard_controller.update(dt)
 
-    # Actions
-    @scene_controller.update(dt)
+    # Send events
+    @server.send_events(events)
 
-    @camera.x = @player.x
-    @camera.y = @player.y
+    # Receive events
+    receive_server_events
+
+    # TODO: Move this somewhere!
+    if @player
+      @camera.x = @player.x
+      @camera.y = @player.y
+    end
+
+    end_time = Time.now.to_f
+
+    @simulation_time = end_time - start_time
+  end
+
+  def receive_server_events
+    events = @server.receive_events
+    events.each do |event|
+      if event.options[:timestamp] >= @timestamp
+        handle_event(event)
+      end
+    end
+  end
+
+  def handle_event(event)
+    case event.name
+    when :create_object
+      if event.options[:object] == :player
+        @player = Player.new(self)
+        @keyboard_controller.register(@player)
+        @scene_controller.register(@player)
+      else
+        puts "I don't know how to create #{event.options[:object]}"
+      end
+    else
+      puts "I don't know how to handle event: #{event.to_s}"
+    end
   end
 
   def button_down(id)

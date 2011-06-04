@@ -4,16 +4,17 @@ class Player < Renderable
   attr_reader :score
 
   def initialize(state)
+    super
     @state = state
     @window = state.window
-    @image = Gosu::Image.new(@window, 'media/player.png', false)
+    @image = nil
+    if @window
+      @image = Gosu::Image.new(@window, 'media/player.png', false)
+    end
     @x = @y = @angle = 0.0
 
     @health = 100
     @score = 0
-
-    @state.keyboard_controller.register(self)
-    @state.scene_controller.register(self)
   end
 
   def warp(x, y)
@@ -21,7 +22,7 @@ class Player < Renderable
   end
 
   def update(dt)
-    look_x, look_y = @state.relative_to_absolute(@state.window.mouse_x, @state.window.mouse_y)
+    look_x, look_y = @state.relative_to_absolute(@window.mouse_x, @window.mouse_y)
     @angle = Gosu::angle(@x, @y, look_x, look_y)
 
     if @health <= 0
@@ -106,6 +107,12 @@ class Player < Renderable
 
   def damage(value)
     @health -= value
+  end
+
+  def process_event(event)
+    if event.name == :move
+      puts event.options
+    end
   end
 end
 

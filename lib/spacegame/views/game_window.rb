@@ -4,12 +4,12 @@ class GameWindow < Gosu::Window
     self.caption = "Spacegame"
 
     # Networking
-    client = GameNetworkClient.new
-    begin
-      client.connect
-    rescue
-      puts "No server connection"
-    end
+    #client = GameNetworkClient.new
+    #begin
+    #  client.connect
+    #rescue
+    #  puts "No server connection"
+    #end
 
     # State setup
     @state_stack = []

@@ -30,6 +30,12 @@ class SceneController
     end
   end
 
+  def send_event(event)
+    @objects.each do |object|
+      object.process_event(event)
+    end
+  end
+
   def player
     @objects.find {|o| o.class == Player}
   end

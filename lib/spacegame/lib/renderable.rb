@@ -1,5 +1,10 @@
 class Renderable
   attr_reader :x, :y
+  attr_reader :game_id
+
+  def initialize(options={})
+    @game_id = 0
+  end
 
   def width
     @image.width
@@ -26,9 +31,11 @@ class Renderable
   end
 
   def draw(camera)
-    draw_x = @x - camera.x + @window.width / 2
-    draw_y = @y - camera.y + @window.height / 2
-    @image.draw_rot(draw_x, draw_y, 1, @angle)
+    if @window && @image
+      draw_x = @x - camera.x + @window.width / 2
+      draw_y = @y - camera.y + @window.height / 2
+      @image.draw_rot(draw_x, draw_y, 1, @angle)
+    end
   end
 
   def update(dt)
@@ -45,5 +52,8 @@ class Renderable
     end
   end
 
+  def process_event(event)
+
+  end
 end
 

@@ -18,6 +18,7 @@ require "#{ROOT}/spacegame/views/game_window"
 
 require "#{ROOT}/spacegame/controllers/states/menu_state"
 require "#{ROOT}/spacegame/controllers/states/playing_state"
+require "#{ROOT}/spacegame/controllers/states/server_state"
 require "#{ROOT}/spacegame/controllers/keyboard_controller"
 require "#{ROOT}/spacegame/controllers/scene_controller"
 require "#{ROOT}/spacegame/controllers/local_server"

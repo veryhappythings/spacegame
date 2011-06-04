@@ -1,0 +1,13 @@
+*client hits key
+*event is created
+    (:name => :move, :upmove => 0, :rightmove => 0, :timestamp => 111)
+
+*event is sent to server
+*client requests new events from server
+*server sends array of events
+client applies each event if the timestamp is greater than last updated
+cient updates last updated timestamp
+
+
+PlayingState and SceneController need to be changed to send their events
+Any events need to be stripped out of models eg shooting
