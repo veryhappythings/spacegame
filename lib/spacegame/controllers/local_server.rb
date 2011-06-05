@@ -1,12 +1,16 @@
 class LocalServer
+  attr_reader :events, :received_events
+
   def initialize
     @events = []
     @objects = []
     @state = ServerState.new()
+    @received_events = []
   end
 
   def send_event(event)
     puts event.to_s
+    @received_events << event
     case event.name
     when :connect
       player = Player.new(@state)

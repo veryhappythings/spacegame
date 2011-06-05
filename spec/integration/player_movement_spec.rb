@@ -8,6 +8,7 @@ describe 'Player Movement' do
     end
 
     it 'should allow me to move up by pressing W' do
+      @window.current_game_state.scene_controller.player.y.should == 300
       @window.button_down(Gosu::Button::KbW)
       @window.update
       @window.current_game_state.scene_controller.player.y.should < 300

@@ -3,6 +3,8 @@ class PlayingState < State
   attr_reader :keyboard_controller
   attr_reader :scene_controller
   attr_reader :timestamp
+  attr_reader :server
+  attr_reader :player
 
   attr_accessor :camera
 
