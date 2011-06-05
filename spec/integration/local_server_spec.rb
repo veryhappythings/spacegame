@@ -17,7 +17,7 @@ describe 'Playing with a local server' do
     server.class.should == LocalServer
   end
 
-  context 'just after starting the game' do
+  context 'after starting the game' do
     before :each do
       @window.new_game!
       @server = @window.current_game_state.server
@@ -40,6 +40,11 @@ describe 'Playing with a local server' do
 
       specify 'the client should have created a player object' do
         @window.current_game_state.player.should_not == nil
+      end
+
+      specify 'the client should not receive the same event twice' do
+        events = @window.current_game_state.receive_server_events
+        events.length.should == 0
       end
     end
   end

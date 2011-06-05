@@ -14,11 +14,16 @@ class PlayingState < State
     @keyboard_controller = KeyboardController.new(self)
     @scene_controller = SceneController.new(self)
 
-    @timestamp = Time.now.to_i
+    update_timestamp
+
     @camera = Point.new(0, 0)
 
     @server = LocalServer.new
     @server.send_event(Event.new(:connect))
+  end
+
+  def update_timestamp
+    @timestamp = (Time.now.to_f * 100000).to_i
   end
 
   def end_game!(score)
@@ -54,7 +59,9 @@ class PlayingState < State
     @server.send_events(events)
 
     # Receive events
-    receive_server_events
+    received_events = receive_server_events
+    @timestamp = received_events.last.options[:timestamp]
+
 
     # TODO: Move this somewhere!
     if @player
@@ -69,11 +76,16 @@ class PlayingState < State
 
   def receive_server_events
     events = @server.receive_events
+    processed_events = []
+
     events.each do |event|
-      if event.options[:timestamp] >= @timestamp
+      if event.options[:timestamp] > @timestamp
         handle_event(event)
+        processed_events << event
       end
     end
+
+    processed_events
   end
 
   def handle_event(event)

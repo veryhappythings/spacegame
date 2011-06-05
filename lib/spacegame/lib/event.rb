@@ -3,7 +3,7 @@ class Event
     @name = name
     @options = options
     unless @options.has_key? :timestamp
-      @options[:timestamp] = Time.now.to_i
+      @options[:timestamp] = (Time.now.to_f * 100000).to_i
     end
   end
 
