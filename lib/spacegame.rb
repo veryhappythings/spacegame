@@ -2,6 +2,15 @@ ROOT = File.dirname(File.expand_path(__FILE__))
 
 require 'rubygems'
 require 'gosu'
+require 'logger'
+
+class Utils
+  @@log = Logger.new(STDOUT)
+  @@log.level = Logger::DEBUG
+  def self.logger
+    @@log
+  end
+end
 
 require "#{ROOT}/spacegame/server"
 require "#{ROOT}/spacegame/game_network_client"
@@ -22,3 +31,4 @@ require "#{ROOT}/spacegame/controllers/states/server_state"
 require "#{ROOT}/spacegame/controllers/keyboard_controller"
 require "#{ROOT}/spacegame/controllers/scene_controller"
 require "#{ROOT}/spacegame/controllers/local_server"
+

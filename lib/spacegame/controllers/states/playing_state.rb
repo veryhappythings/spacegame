@@ -19,6 +19,7 @@ class PlayingState < State
     @camera = Point.new(0, 0)
 
     @server = LocalServer.new
+    Utils.logger.info("Connecting...")
     @server.send_event(Event.new(:connect))
   end
 
@@ -59,9 +60,7 @@ class PlayingState < State
     @server.send_events(events)
 
     # Receive events
-    received_events = receive_server_events
-    @timestamp = received_events.last.options[:timestamp]
-
+    receive_server_events
 
     # TODO: Move this somewhere!
     if @player
@@ -85,10 +84,13 @@ class PlayingState < State
       end
     end
 
+    @timestamp = events.last.options[:timestamp]
+
     processed_events
   end
 
   def handle_event(event)
+    Utils.logger.info("Client handling event: #{event.to_s}")
     case event.name
     when :create_object
       if event.options[:object] == :player
@@ -96,10 +98,10 @@ class PlayingState < State
         @keyboard_controller.register(@player)
         @scene_controller.register(@player)
       else
-        puts "I don't know how to create #{event.options[:object]}"
+        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
       end
     else
-      puts "I don't know how to handle event: #{event.to_s}"
+      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
     end
   end
 

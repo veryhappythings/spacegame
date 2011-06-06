@@ -9,7 +9,7 @@ class LocalServer
   end
 
   def send_event(event)
-    puts event.to_s
+    Utils.logger.info("Server received event #{event.to_s}")
     @received_events << event
     case event.name
     when :connect

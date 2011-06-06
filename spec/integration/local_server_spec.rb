@@ -15,7 +15,7 @@ describe 'Playing with a local server' do
     @window.current_game_state.class.should == PlayingState
     server = @window.current_game_state.server
     server.class.should == LocalServer
-  end
+end
 
   context 'after starting the game' do
     before :each do
