@@ -14,17 +14,13 @@ class PlayingState < State
     @keyboard_controller = KeyboardController.new(self)
     @scene_controller = SceneController.new(self)
 
-    update_timestamp
+    @timestamp = (Time.now.to_f * 100000).to_i
 
     @camera = Point.new(0, 0)
 
     @server = LocalServer.new
     Utils.logger.info("Connecting...")
     @server.send_event(Event.new(:connect))
-  end
-
-  def update_timestamp
-    @timestamp = (Time.now.to_f * 100000).to_i
   end
 
   def end_game!(score)
