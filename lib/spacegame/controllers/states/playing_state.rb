@@ -32,20 +32,6 @@ class PlayingState < State
     @scene_controller.draw(@camera)
   end
 
-  def relative_to_absolute(x, y)
-    # from map to window
-    abs_x = x + (@camera.x - @window.width / 2)
-    abs_y = y + (@camera.y - @window.height / 2)
-    return abs_x, abs_y
-  end
-
-  def absolute_to_relative(x, y)
-    # from window to map
-    rel_x = x - @camera.x + @window.width / 2
-    rel_y = y - @camera.y + @window.height / 2
-    return rel_x, rel_y
-  end
-
   def update(dt)
     start_time = Time.now.to_f
 

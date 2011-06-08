@@ -21,8 +21,22 @@ class Player < Renderable
     @x, @y = x, y
   end
 
+  def relative_to_absolute(x, y)
+    # from map to window
+    abs_x = x + (@state.camera.x - @window.width / 2)
+    abs_y = y + (@state.camera.y - @window.height / 2)
+    return abs_x, abs_y
+  end
+
+  def absolute_to_relative(x, y)
+    # from window to map
+    rel_x = x - @state.camera.x + @window.width / 2
+    rel_y = y - @state.camera.y + @window.height / 2
+    return rel_x, rel_y
+  end
+
   def update(dt)
-    look_x, look_y = @state.relative_to_absolute(@window.mouse_x, @window.mouse_y)
+    look_x, look_y = relative_to_absolute(@window.mouse_x, @window.mouse_y)
     @angle = Gosu::angle(@x, @y, look_x, look_y)
 
     if @health <= 0
