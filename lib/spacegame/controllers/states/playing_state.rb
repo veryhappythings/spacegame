@@ -46,10 +46,10 @@ class PlayingState < State
     receive_server_events
 
     # TODO: Move this somewhere!
-    if @player
-      @camera.x = @player.x
-      @camera.y = @player.y
-    end
+    #if @player
+    #  @camera.x = @player.x
+    #  @camera.y = @player.y
+    #end
 
     end_time = Time.now.to_f
 
