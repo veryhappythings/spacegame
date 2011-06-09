@@ -5,10 +5,10 @@ describe 'Player Movement' do
     before :each do
       @window = GameWindow.new
       @window.new_game!
+      @window.update
     end
 
     it 'should allow me to move up by pressing W' do
-      @window.update
       @window.current_game_state.scene_controller.player.y.should == 0
       @window.button_down(Gosu::Button::KbW)
       @window.update
