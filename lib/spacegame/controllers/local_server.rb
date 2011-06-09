@@ -19,9 +19,9 @@ class LocalServer
     when :move
       player = @objects.find {|o| o.class == Player}
       if player
-        x = event.options[:right_move] * event.options[:simulation_time]
-        y = event.options[:up_move] * event.options[:simulation_time]
-        player.warp(x, y)
+        x = event.options[:right_move] #* event.options[:simulation_time]
+        y = event.options[:up_move] #* event.options[:simulation_time]
+        player.warp(player.x + x, player.y + y)
       end
     else
       Utils.logger.warn("I don't know how to handle this: #{event.to_s}")
