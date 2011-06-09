@@ -44,7 +44,7 @@ end
 
       specify 'the client should not receive the same event twice' do
         events = @window.current_game_state.receive_server_events
-        events.length.should == 0
+        events.length.should == 1
       end
     end
   end

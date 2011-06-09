@@ -2,7 +2,7 @@ class PlayingState < State
   attr_reader :window
   attr_reader :keyboard_controller
   attr_reader :scene_controller
-  attr_reader :timestamp
+  attr_reader :timestamp, :simulation_time
   attr_reader :server
   attr_reader :player
 
@@ -15,6 +15,7 @@ class PlayingState < State
     @scene_controller = SceneController.new(self)
 
     @timestamp = (Time.now.to_f * 100000).to_i
+    @simulation_time = 0
 
     @camera = Point.new(0, 0)
 
@@ -81,6 +82,10 @@ class PlayingState < State
         @scene_controller.register(@player)
       else
         Utils.logger.warn("I don't know how to create #{event.options[:object]}")
+      end
+    when :warp
+      if event.options[:object] == :player && @player
+        @player.warp(event.options[:x], event.options[:y])
       end
     else
       Utils.logger.warn("I don't know how to handle event: #{event.to_s}")

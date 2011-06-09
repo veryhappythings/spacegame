@@ -16,8 +16,15 @@ class LocalServer
       player = Player.new(@state)
       @objects << player
       @events << Event.new(:create_object, :object => :player)
+    when :move
+      player = @objects.find {|o| o.class == Player}
+      if player
+        x = event.options[:right_move] * event.options[:simulation_time]
+        y = event.options[:up_move] * event.options[:simulation_time]
+        player.warp(x, y)
+      end
     else
-      @events << event
+      Utils.logger.warn("I don't know how to handle this: #{event.to_s}")
     end
   end
 
@@ -26,6 +33,13 @@ class LocalServer
   end
 
   def receive_events
-    return @events
+    # Simulate a server thread tick.  Will need rethinking for proper client/server
+    #
+    events = @events.tap do |array|
+      @objects.each do |object|
+        # FIXME: Use object ID
+        array << Event.new(:warp, :object => :player, :x => object.x, :y => object.y)
+      end
+    end
   end
 end

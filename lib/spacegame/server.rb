@@ -6,13 +6,13 @@ PACKET_HEADER_FORMAT = "N"
 module Spacegame
   class Server
     def initialize(options={})
-        @ip = options[:ip] || "0.0.0.0"
-        @port = options[:port] || 4444
-        @socket = nil
-        @sockets = []
-        @max_read_per_update = options[:max_read_per_update] || 20000
+      @ip = options[:ip] || "0.0.0.0"
+      @port = options[:port] || 4444
+      @socket = nil
+      @sockets = []
+      @max_read_per_update = options[:max_read_per_update] || 20000
 
-        @packet_buffers = Hash.new
+      @packet_buffers = Hash.new
     end
 
     def start(ip=nil, port=nil)
