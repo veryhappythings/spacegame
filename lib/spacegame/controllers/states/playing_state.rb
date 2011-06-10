@@ -22,7 +22,7 @@ class PlayingState < State
     @server = LocalServer.new
     Utils.logger.info("Connecting...")
     @client_id = "localclient"
-    @server.send_event(Event.new(:connect, :client_id => @client_id))
+    @server.send_event(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
   end
 
   def end_game!(score)
@@ -59,10 +59,11 @@ class PlayingState < State
 
   def receive_server_events
     events = @server.receive_events(@client_id)
+    Utils.logger.info('received events')
     processed_events = []
 
     events.each do |event|
-      if event.options[:timestamp] > @timestamp
+      if event.options[:timestamp].to_i > @timestamp
         handle_event(event)
         processed_events << event
       end
