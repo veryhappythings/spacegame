@@ -2,6 +2,7 @@ class LocalServer
   attr_reader :events, :received_events
 
   def initialize
+    @clients = {}
     @events = []
     @objects = []
     @state = ServerState.new()
@@ -13,6 +14,7 @@ class LocalServer
     @received_events << event
     case event.name
     when :connect
+      @clients[event.options[:client_id]] = event.options[:timestamp]
       player = Player.new(@state)
       @objects << player
       @events << Event.new(:create_object, :object => :player)
@@ -32,7 +34,7 @@ class LocalServer
     events.each {|e| send_event(e)}
   end
 
-  def receive_events
+  def receive_events(client_id)
     # Simulate a server thread tick.  Will need rethinking for proper client/server
     #
     events = @events.tap do |array|

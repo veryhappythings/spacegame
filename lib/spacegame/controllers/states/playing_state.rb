@@ -21,7 +21,8 @@ class PlayingState < State
 
     @server = LocalServer.new
     Utils.logger.info("Connecting...")
-    @server.send_event(Event.new(:connect))
+    @client_id = "localclient"
+    @server.send_event(Event.new(:connect, :client_id => @client_id))
   end
 
   def end_game!(score)
@@ -57,7 +58,7 @@ class PlayingState < State
   end
 
   def receive_server_events
-    events = @server.receive_events
+    events = @server.receive_events(@client_id)
     processed_events = []
 
     events.each do |event|
