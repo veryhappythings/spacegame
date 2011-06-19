@@ -64,7 +64,7 @@ class LocalServer
     #end
 
     Utils.logger.info("Server sending events to #{client_id}")
-    events = @events.find {|e| e.options[:timestamp].to_i >= @clients[client_id]}
+    events = @events.select {|e| e.options[:timestamp].to_i >= @clients[client_id]}
     return events
   end
 end
