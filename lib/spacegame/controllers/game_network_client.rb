@@ -1,7 +1,8 @@
 require 'socket'
 
 class GameNetworkClient
-  def initialize(options = {})
+  def initialize(gamestate, options = {})
+    @gamestate
     @timeout = options[:timeout] || 4
     @ip = options[:ip] || "0.0.0.0"
     @port = options[:port] || 4444
@@ -16,7 +17,7 @@ class GameNetworkClient
 
   def connect(ip = nil, port = nil)
     return if @socket
-    Utils.logger.info('Connecting...')
+    Utils.logger.info('Client Connecting...')
 
     @ip = ip      if ip
     @port = port  if port
@@ -92,6 +93,7 @@ class GameNetworkClient
   end
 
   def send_msg(msg)
+    Utils.logger.info("Client sending message: #{msg}")
     send_data(Marshal.dump(msg))
   end
 

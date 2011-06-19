@@ -3,6 +3,7 @@ ROOT = File.dirname(File.expand_path(__FILE__))
 require 'rubygems'
 require 'gosu'
 require 'logger'
+require 'json'
 
 class Utils
   @@log = Logger.new(STDOUT)

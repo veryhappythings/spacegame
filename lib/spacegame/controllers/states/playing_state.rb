@@ -19,13 +19,17 @@ class PlayingState < State
 
     @camera = Point.new(0, 0)
 
-    @server = LocalServer.new
-    @client = GameNetworkClient.new
-    @client.connect
+    @server = Spacegame::Server.new(ServerState.new)
+    @server.start
 
-    Utils.logger.info("Connecting...")
+    @client = GameNetworkClient.new(self)
+    @client.connect
+    Utils.logger.info("Connected to local server.")
+
     @client_id = "localclient"
-    @server.send_event(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
+    #@client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
+
+    Utils.logger.info("Playing State setup complete.")
   end
 
   def end_game!(score)
@@ -44,10 +48,10 @@ class PlayingState < State
     events = @keyboard_controller.update(dt)
 
     # Send events
-    @server.send_events(events)
+    @client.update
 
     # Receive events
-    receive_server_events
+    @server.update
 
     # TODO: Move this somewhere!
     #if @player
@@ -60,42 +64,42 @@ class PlayingState < State
     @simulation_time = end_time - start_time
   end
 
-  def receive_server_events
-    events = @server.receive_events(@client_id)
-    Utils.logger.info('received events')
-    processed_events = []
-
-    events.each do |event|
-      if event.options[:timestamp].to_i > @timestamp
-        handle_event(event)
-        processed_events << event
-      end
-    end
-
-    @timestamp = events.last.options[:timestamp]
-
-    processed_events
-  end
-
-  def handle_event(event)
-    Utils.logger.info("Client handling event: #{event.to_s}")
-    case event.name
-    when :create_object
-      if event.options[:object] == :player
-        @player = Player.new(self)
-        @keyboard_controller.register(@player)
-        @scene_controller.register(@player)
-      else
-        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
-      end
-    when :warp
-      if event.options[:object] == :player && @player
-        @player.warp(event.options[:x], event.options[:y])
-      end
-    else
-      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
-    end
-  end
+#  def receive_server_events
+#    events = @server.receive_events(@client_id)
+#    Utils.logger.info('received events')
+#    processed_events = []
+#
+#    events.each do |event|
+#      if event.options[:timestamp].to_i > @timestamp
+#        handle_event(event)
+#        processed_events << event
+#      end
+#    end
+#
+#    @timestamp = events.last.options[:timestamp]
+#
+#    processed_events
+#  end
+#
+#  def handle_event(event)
+#    Utils.logger.info("Client handling event: #{event.to_s}")
+#    case event.name
+#    when :create_object
+#      if event.options[:object] == :player
+#        @player = Player.new(self)
+#        @keyboard_controller.register(@player)
+#        @scene_controller.register(@player)
+#      else
+#        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
+#      end
+#    when :warp
+#      if event.options[:object] == :player && @player
+#        @player.warp(event.options[:x], event.options[:y])
+#      end
+#    else
+#      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
+#    end
+#  end
 
   def button_down(id)
     @keyboard_controller.button_down(id)

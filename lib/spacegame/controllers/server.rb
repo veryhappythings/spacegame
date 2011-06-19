@@ -5,7 +5,8 @@ PACKET_HEADER_FORMAT = "N"
 
 module Spacegame
   class Server
-    def initialize(options={})
+    def initialize(gamestate, options={})
+      @gamestate = gamestate
       @ip = options[:ip] || "0.0.0.0"
       @port = options[:port] || 4444
       @socket = nil
@@ -28,10 +29,10 @@ module Spacegame
       return self
     end
     def on_start
-      puts 'Started'
+      Utils.logger.info('Server Started')
     end
     def on_start_error(error)
-      puts 'Start error'
+      Utils.logger.info('Server Start error')
       p error
     end
 
@@ -44,13 +45,12 @@ module Spacegame
 
     # Called when a client connects
     def on_connect(socket)
-      puts "[Client Connected: #{socket}]"
-      send_msg(socket, 'hi!')
+      Utils.logger.info("[Client Connected: #{socket}]")
     end
 
     # Called when a client disconnects
     def on_disconnect(socket)
-      puts "[Client Disconnected: #{socket}]"   if @debug
+      Utils.logger.info("[Client Disconnected: #{socket}]")
     end
 
     def handle_incoming_connections
@@ -90,7 +90,7 @@ module Spacegame
       end
     end
     def on_msg(socket, msg)
-      puts "received message: #{msg}"
+      Utils.logger.info("received message: #{msg}")
     end
 
     def broadcast_msg(msg)
