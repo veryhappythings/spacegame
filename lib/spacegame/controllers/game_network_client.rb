@@ -2,7 +2,7 @@ require 'socket'
 
 class GameNetworkClient
   def initialize(gamestate, options = {})
-    @gamestate
+    @gamestate = gamestate
     @timeout = options[:timeout] || 4
     @ip = options[:ip] || "0.0.0.0"
     @port = options[:port] || 4444
