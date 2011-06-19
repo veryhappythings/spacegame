@@ -1,8 +1,5 @@
 require 'socket'
 
-dir = File.dirname(__FILE__)
-require "#{dir}/server"
-
 class GameNetworkClient
   def initialize(options = {})
     @timeout = options[:timeout] || 4
@@ -19,7 +16,7 @@ class GameNetworkClient
 
   def connect(ip = nil, port = nil)
     return if @socket
-    puts 'Connecting...'
+    Utils.logger.info('Connecting...')
 
     @ip = ip      if ip
     @port = port  if port
@@ -38,10 +35,10 @@ class GameNetworkClient
     connect(@ip, @port)
   end
   def on_connect
-    puts "[Connected to Server #{@ip}:#{@port}]"
+    Utils.logger.info("[Connected to Server #{@ip}:#{@port}]")
   end
   def on_disconnect
-    puts "[Disconnected from Server]"
+    Utils.logger.info("[Disconnected from Server]")
   end
 
   def update
@@ -91,7 +88,7 @@ class GameNetworkClient
   end
 
   def on_msg(msg)
-    puts "Received message: #{msg}"
+    Utils.logger.info("Received message: #{msg}")
   end
 
   def send_msg(msg)

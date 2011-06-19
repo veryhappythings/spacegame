@@ -20,6 +20,9 @@ class PlayingState < State
     @camera = Point.new(0, 0)
 
     @server = LocalServer.new
+    @client = GameNetworkClient.new
+    @client.connect
+
     Utils.logger.info("Connecting...")
     @client_id = "localclient"
     @server.send_event(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))

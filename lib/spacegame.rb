@@ -12,9 +12,6 @@ class Utils
   end
 end
 
-require "#{ROOT}/spacegame/server"
-require "#{ROOT}/spacegame/game_network_client"
-
 require "#{ROOT}/spacegame/lib/event"
 require "#{ROOT}/spacegame/lib/point"
 require "#{ROOT}/spacegame/lib/renderable"
@@ -31,4 +28,6 @@ require "#{ROOT}/spacegame/controllers/states/server_state"
 require "#{ROOT}/spacegame/controllers/keyboard_controller"
 require "#{ROOT}/spacegame/controllers/scene_controller"
 require "#{ROOT}/spacegame/controllers/local_server"
+require "#{ROOT}/spacegame/controllers/server"
+require "#{ROOT}/spacegame/controllers/game_network_client"
 
