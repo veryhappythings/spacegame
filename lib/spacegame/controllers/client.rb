@@ -1,12 +1,12 @@
 
 class SpacegameNetworkClient < NetworkClient
-  def initialize(gamestate, options = {})
-    @gamestate = gamestate
+  def initialize(state, options = {})
+    @state = state
     super(options)
   end
 
   def on_msg(msg)
-    super(msg)
+    @state.handle_event(msg)
   end
 
   def send_msg(msg)

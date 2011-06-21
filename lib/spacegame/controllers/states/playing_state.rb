@@ -45,6 +45,7 @@ class PlayingState < State
 
     # Send events
     events = @keyboard_controller.update(dt)
+
     if !@player
       @client.update
       @server.update
@@ -68,42 +69,25 @@ class PlayingState < State
     @simulation_time = end_time - start_time
   end
 
-#  def receive_server_events
-#    events = @server.receive_events(@client_id)
-#    Utils.logger.info('received events')
-#    processed_events = []
-#
-#    events.each do |event|
-#      if event.options[:timestamp].to_i > @timestamp
-#        handle_event(event)
-#        processed_events << event
-#      end
-#    end
-#
-#    @timestamp = events.last.options[:timestamp]
-#
-#    processed_events
-#  end
-#
-#  def handle_event(event)
-#    Utils.logger.info("Client handling event: #{event.to_s}")
-#    case event.name
-#    when :create_object
-#      if event.options[:object] == :player
-#        @player = Player.new(self)
-#        @keyboard_controller.register(@player)
-#        @scene_controller.register(@player)
-#      else
-#        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
-#      end
-#    when :warp
-#      if event.options[:object] == :player && @player
-#        @player.warp(event.options[:x], event.options[:y])
-#      end
-#    else
-#      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
-#    end
-#  end
+  def handle_event(event)
+    Utils.logger.info("Client handling event: #{event.to_s}")
+    case event.name
+    when :create_object
+      if event.options[:object] == :player
+        @player = Player.new(self)
+        @keyboard_controller.register(@player)
+        @scene_controller.register(@player)
+      else
+        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
+      end
+    when :warp
+      if event.options[:object] == :player && @player
+        @player.warp(event.options[:x], event.options[:y])
+      end
+    else
+      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
+    end
+  end
 
   def button_down(id)
     @keyboard_controller.button_down(id)

@@ -1,21 +1,34 @@
 class SpacegameNetworkServer < NetworkServer
   # Not yet sure how to attach sockets to particular players
 
-  def initialize(gamestate, options={})
-    @gamestate = gamestate
+  def initialize(state, options={})
     super(options)
+    @state = state
+    @clients = {}
   end
 
   def on_connect(socket)
     super(socket)
+
   end
 
   def on_msg(socket, msg)
-    Utils.logger.info("Server received message: #{msg}")
+    socket_id = @sockets.find_index {|s| s == socket}
+    Utils.logger.info("Server received message from #{socket_id}: #{msg}")
 
-    # Figure out what the socket represents
-    #  - Assign player ID to socket on create message
-    # Process message
-    # Send out a response
+    case msg.name
+    when :connect
+      @clients[msg.options[:client_id]] = msg.options[:timestamp]
+      player = Player.new(@state)
+      @state.objects << player
+      broadcast_msg(Event.new(
+        :create_object,
+        :object => :player,
+        :timestamp => msg.options[:timestamp]
+      ))
+    else
+      Utils.logger.warn("I don't know how to handle this: #{msg.to_s}")
+    end
+
   end
 end
