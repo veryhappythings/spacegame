@@ -1,8 +1,7 @@
 require 'socket'
 
-class GameNetworkClient
-  def initialize(gamestate, options = {})
-    @gamestate = gamestate
+class NetworkClient
+  def initialize(options = {})
     @timeout = options[:timeout] || 4
     @ip = options[:ip] || "0.0.0.0"
     @port = options[:port] || 4444

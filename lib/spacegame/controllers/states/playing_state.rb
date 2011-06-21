@@ -19,10 +19,10 @@ class PlayingState < State
 
     @camera = Point.new(0, 0)
 
-    @server = Spacegame::Server.new(ServerState.new)
+    @server = SpacegameNetworkServer.new(ServerState.new)
     @server.start
 
-    @client = GameNetworkClient.new(self)
+    @client = SpacegameNetworkClient.new(self)
     @client.connect
     Utils.logger.info("Connected to local server.")
 
