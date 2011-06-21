@@ -29,7 +29,7 @@ class PlayingState < State
     @client_id = "localclient"
     #@client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
 
-    Utils.logger.info("Playing State setup complete.")
+    Utils.logger.info("Playing State init complete.")
   end
 
   def end_game!(score)
