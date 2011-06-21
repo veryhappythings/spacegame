@@ -44,8 +44,6 @@ class PlayingState < State
     start_time = Time.now.to_f
 
     # Send events
-    events = @keyboard_controller.update(dt)
-
     if !@server_init_started
       @server_init_started = true
       @client.update
@@ -53,17 +51,16 @@ class PlayingState < State
       @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
     end
 
+    @keyboard_controller.update(dt).each do |event|
+      @client.send_msg(event)
+    end
+
+
     # Send events
     @client.update
 
     # Receive events
     @server.update
-
-    # TODO: Move this somewhere!
-    #if @player
-    #  @camera.x = @player.x
-    #  @camera.y = @player.y
-    #end
 
     end_time = Time.now.to_f
 

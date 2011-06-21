@@ -26,8 +26,23 @@ class SpacegameNetworkServer < NetworkServer
         :object => :player,
         :timestamp => msg.options[:timestamp]
       ))
+    when :move
+      # FIXME: work for multiple players
+      player = @state.objects.find {|o| o.class == Player}
+      if player
+        x = msg.options[:right_move] #* event.options[:simulation_time]
+        y = msg.options[:up_move] #* event.options[:simulation_time]
+        player.warp(player.x + x, player.y + y)
+        broadcast_msg(Event.new(
+          :warp,
+          :object => :player,
+          :x => player.x,
+          :y => player.y,
+          :timestamp => msg.options[:timestamp]
+        ))
+      end
     else
-      Utils.logger.warn("I don't know how to handle this: #{msg.to_s}")
+      Utils.logger.warn("Server: I don't know how to handle this: #{msg.to_s}")
     end
 
   end
