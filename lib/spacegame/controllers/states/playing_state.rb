@@ -46,7 +46,8 @@ class PlayingState < State
     # Send events
     events = @keyboard_controller.update(dt)
 
-    if !@player
+    if !@server_init_started
+      @server_init_started = true
       @client.update
       @server.update
       @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
