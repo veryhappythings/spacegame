@@ -24,7 +24,6 @@ class PlayingState < State
 
     @client = SpacegameNetworkClient.new(self)
     @client.connect
-    Utils.logger.info("Connected to local server.")
 
     @client_id = "localclient"
     #@client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
@@ -44,8 +43,13 @@ class PlayingState < State
   def update(dt)
     start_time = Time.now.to_f
 
-    # Controls
+    # Send events
     events = @keyboard_controller.update(dt)
+    if !@player
+      @client.update
+      @server.update
+      @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
+    end
 
     # Send events
     @client.update

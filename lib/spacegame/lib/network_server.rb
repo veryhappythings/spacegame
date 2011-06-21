@@ -43,12 +43,12 @@ class NetworkServer
 
   # Called when a client connects
   def on_connect(socket)
-    Utils.logger.info("[Client Connected: #{socket}]")
+    Utils.logger.info("[Client Connected: #{socket.inspect}]")
   end
 
   # Called when a client disconnects
   def on_disconnect(socket)
-    Utils.logger.info("[Client Disconnected: #{socket}]")
+    Utils.logger.info("[Client Disconnected: #{socket.inspect}]")
   end
 
   def handle_incoming_connections

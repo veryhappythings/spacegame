@@ -11,6 +11,11 @@ class SpacegameNetworkServer < NetworkServer
   end
 
   def on_msg(socket, msg)
-    super(socket, msg)
+    Utils.logger.info("Server received message: #{msg}")
+
+    # Figure out what the socket represents
+    #  - Assign player ID to socket on create message
+    # Process message
+    # Send out a response
   end
 end
