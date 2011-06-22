@@ -87,15 +87,6 @@ class PlayingState < State
 
   def button_down(id)
     @keyboard_controller.button_down(id)
-    case id
-      when Gosu::Button::KbSpace then
-        @keyboard_controller.send_event(:kb_space_down)
-      when Gosu::Button::KbEscape then
-        @window.enter_state MenuState.new(@window)
-        @window.current_game_state.custom_message = 'Game paused!'
-      when Gosu::Button::MsLeft then
-        @keyboard_controller.send_event(:mouse_left_down)
-    end
   end
 
   def button_up(id)

@@ -25,6 +25,17 @@ class KeyboardController
 
   def button_down(id)
     @buttons_down << id
+
+    # Immediate actions
+    case id
+    when Gosu::Button::KbSpace then
+      send_event(:kb_space_down)
+    when Gosu::Button::KbEscape then
+      @window.enter_state MenuState.new(@window)
+      @window.current_game_state.custom_message = 'Game paused!'
+    when Gosu::Button::MsLeft then
+      send_event(:mouse_left_down)
+    end
   end
 
   def button_up(id)
