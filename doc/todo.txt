@@ -1,6 +1,6 @@
-Local server
-Client connects to local server
-Server receives actions from client
-Client receives actions from server
-Network server, functions same way
-
+Strip all logic out of player object so that 2 could exist
+Bullets
+2 player test
+Barriers
+stars in background
+Larger space, camera follows player
