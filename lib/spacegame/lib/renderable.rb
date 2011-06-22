@@ -3,6 +3,7 @@ class Renderable
   attr_reader :game_id
 
   def initialize(options={})
+    @x = @y = @angle = 0.0
     @game_id = 0
   end
 
