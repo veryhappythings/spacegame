@@ -1,5 +1,5 @@
 class Renderable
-  attr_reader :x, :y
+  attr_reader :x, :y, :angle
   attr_reader :game_id
 
   def initialize(options={})
@@ -28,6 +28,10 @@ class Renderable
 
   def right
     @x + width / 2
+  end
+
+  def warp(x, y, angle)
+    @x, @y, @angle = x, y, angle
   end
 
   def draw(camera)

@@ -80,7 +80,7 @@ class PlayingState < State
       end
     when :warp
       if event.options[:object] == :player && @player
-        @player.warp(event.options[:x], event.options[:y])
+        @player.warp(event.options[:x], event.options[:y], event.options[:angle])
       end
     else
       Utils.logger.warn("I don't know how to handle event: #{event.to_s}")

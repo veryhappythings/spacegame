@@ -28,12 +28,14 @@ class LocalServer
       if player
         x = event.options[:right_move] #* event.options[:simulation_time]
         y = event.options[:up_move] #* event.options[:simulation_time]
-        player.warp(player.x + x, player.y + y)
+        angle = 0
+        player.warp(player.x + x, player.y + y, angle)
         @events << Event.new(
           :warp,
           :object => :player,
           :x => object.x,
           :y => object.y,
+          :angle => player.angle,
           :timestamp => event.options[:timestamp]
         )
       end

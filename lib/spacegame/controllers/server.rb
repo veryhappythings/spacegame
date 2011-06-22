@@ -32,12 +32,16 @@ class SpacegameNetworkServer < NetworkServer
       if player
         x = msg.options[:right_move] #* event.options[:simulation_time]
         y = msg.options[:up_move] #* event.options[:simulation_time]
-        player.warp(player.x + x, player.y + y)
+        angle = msg.options[:angle]
+        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * y) * msg.options[:simulation_time] * 10
+        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * y) * msg.options[:simulation_time] * 10
+        player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
         broadcast_msg(Event.new(
           :warp,
           :object => :player,
           :x => player.x,
           :y => player.y,
+          :angle => player.angle,
           :timestamp => msg.options[:timestamp]
         ))
       end
