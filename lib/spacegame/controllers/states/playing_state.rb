@@ -74,19 +74,21 @@ class PlayingState < State
     Utils.logger.info("Client handling event: #{event.to_s}")
     case event.name
     when :create_object
-      case event.options[:object]
+      case event.options[:class]
       when :player
         @player = Player.new(self)
+        @player.unique_id = event.options[:unique_id]
         @keyboard_controller.register(@player)
         @scene_controller.register(@player)
       when :bullet
         bullet = Bullet.new(self, event.options[:x], event.options[:y], event.options[:angle])
+        bullet.unique_id = event.options[:unique_id]
         @scene_controller.register(bullet)
       else
         Utils.logger.warn("I don't know how to create #{event.options[:object]}")
       end
     when :warp
-      if object = @scene_controller.find(event.options[:object])
+      if object = @scene_controller.find(event.options[:unique_id])
         object.warp(event.options[:x], event.options[:y], event.options[:angle])
       end
     else

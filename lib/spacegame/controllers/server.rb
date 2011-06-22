@@ -22,7 +22,7 @@ class SpacegameNetworkServer < NetworkServer
     updated_objects.each do |obj|
       broadcast_msg(Event.new(
         :warp,
-        :object => obj.class.to_s.downcase.to_sym,
+        :unique_id => obj.unique_id,
         :x => obj.x,
         :y => obj.y,
         :angle => obj.angle,
@@ -45,19 +45,19 @@ class SpacegameNetworkServer < NetworkServer
       @state.scene_controller.register(player)
       broadcast_msg(Event.new(
         :create_object,
-        :object => :player,
+        :class => :player,
+        :unique_id => player.unique_id,
         :timestamp => msg.options[:timestamp]
       ))
     when :create_object
-      case msg.options[:object]
+      case msg.options[:class]
       when :bullet
         bullet = Bullet.new(@state, msg.options[:x], msg.options[:y], msg.options[:angle])
-        p @state.scene_controller.objects
         @state.scene_controller.register(bullet)
-        p @state.scene_controller.objects
         broadcast_msg(Event.new(
           :create_object,
-          :object => :bullet,
+          :class => :bullet,
+          :unique_id => bullet.unique_id,
           :x => bullet.x,
           :y => bullet.y,
           :angle => bullet.angle,

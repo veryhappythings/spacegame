@@ -2,6 +2,7 @@ class Bullet < Renderable
   SPEED = 200
 
   def initialize(state, x, y, angle)
+    super()
     @state = state
     @window = @state.window
     if @window

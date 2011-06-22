@@ -29,7 +29,7 @@ class KeyboardController
     # Immediate actions
     case id
     when Gosu::Button::KbSpace then
-      @state.client.send_msg(Event.new(:create_object, :object => :bullet, :x => 0, :y => 0, :angle => 0))
+      @state.client.send_msg(Event.new(:create_object, :class => :bullet, :x => 0, :y => 0, :angle => 0))
     when Gosu::Button::KbEscape then
       @window.enter_state MenuState.new(@window)
       @window.current_game_state.custom_message = 'Game paused!'

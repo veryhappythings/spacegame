@@ -56,9 +56,8 @@ class SceneController
     @objects.reject{|o| o == object }
   end
 
-  # FIXME: Make this work on unique object IDs created by server
-  def find(object_name)
-    @objects.find{|o| o.class.to_s.downcase.to_sym == object_name}
+  def find(unique_id)
+    @objects.find{|o| o.unique_id == unique_id}
   end
 end
 

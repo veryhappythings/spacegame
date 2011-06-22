@@ -1,11 +1,10 @@
 class Renderable
   @@unique_id_counter = 0
   attr_reader :x, :y, :angle
-  attr_reader :unique_id
+  attr_accessor :unique_id
 
   def initialize(options={})
     @x = @y = @angle = 0.0
-    @game_id = 0
     @unique_id = @@unique_id_counter + 1
     @@unique_id_counter += 1
   end
