@@ -40,15 +40,37 @@ class SpacegameNetworkServer < NetworkServer
 
     case msg.name
     when :connect
+      if @clients.has_key? msg.options[:client_id]
+        Utils.logger.error("SERVER: client with ID #{msg.options[:client_id]} already exists!")
+      end
+
       @clients[msg.options[:client_id]] = msg.options[:timestamp]
-      player = Player.new(@state)
+      player = Player.new(@state, 0, 0, 0)
       @state.scene_controller.register(player)
+
       broadcast_msg(Event.new(
         :create_object,
         :class => :player,
+        :client_id => msg.options[:client_id],
         :unique_id => player.unique_id,
+        :x => player.x,
+        :y => player.y,
+        :angle => player.angle,
         :timestamp => msg.options[:timestamp]
       ))
+      @state.scene_controller.objects.each do |object|
+        unless object == player
+          send_msg(socket, Event.new(
+            :create_object,
+            :class => object.class.to_s.downcase.to_sym,
+            :unique_id => object.unique_id,
+            :x => object.x,
+            :y => object.y,
+            :angle => object.angle,
+            :timestamp => msg.options[:timestamp]
+          ))
+        end
+      end
     when :create_object
       case msg.options[:class]
       when :bullet
@@ -68,7 +90,7 @@ class SpacegameNetworkServer < NetworkServer
       end
     when :move
       # FIXME: work for multiple players
-      player = @state.scene_controller.objects.find {|o| o.class == Player}
+      player = @state.scene_controller.find(msg.options[:unique_id])
       if player
         up_move = msg.options[:up_move]
         angle = msg.options[:angle]

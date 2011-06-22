@@ -39,8 +39,6 @@ class KeyboardController
     when Gosu::Button::KbEscape then
       @window.enter_state MenuState.new(@window)
       @window.current_game_state.custom_message = 'Game paused!'
-    when Gosu::Button::MsLeft then
-      send_event(:mouse_left_down)
     end
   end
 
@@ -73,16 +71,16 @@ class KeyboardController
   end
 
   def kb_left_down
-    Event.new(:move, :right_move => 0, :up_move => 0, :angle => -1, :timestamp => @state.timestamp, :simulation_time => @state.simulation_time)
+    Event.new(:move, :right_move => 0, :up_move => 0, :angle => -1, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
   end
   def kb_right_down
-    Event.new(:move, :right_move => 0, :up_move => 0, :angle => 1, :timestamp => @state.timestamp, :simulation_time => @state.simulation_time)
+    Event.new(:move, :right_move => 0, :up_move => 0, :angle => 1, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
   end
   def kb_up_down
-    Event.new(:move, :right_move => 0, :up_move => 1, :angle => 0, :timestamp => @state.timestamp, :simulation_time => @state.simulation_time)
+    Event.new(:move, :right_move => 0, :up_move => 1, :angle => 0, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
   end
   def kb_down_down
-    Event.new(:move, :right_move => 0, :up_move => -1, :angle => 0, :timestamp => @state.timestamp, :simulation_time => @state.simulation_time)
+    Event.new(:move, :right_move => 0, :up_move => -1, :angle => 0, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
   end
 end
 

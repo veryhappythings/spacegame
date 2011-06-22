@@ -1,8 +1,8 @@
 class Player < Renderable
   SPEED = 100
 
-  def initialize(state)
-    super
+  def initialize(state, x, y, angle)
+    super()
     @state = state
     @window = state.window
     @image = nil
@@ -10,10 +10,14 @@ class Player < Renderable
       @image = Gosu::Image.new(@window, 'media/player.png', false)
     end
     @health = 100
-    #
+    @x = x
+    @y = y
+    @angle = angle
+
     # Substitute for server not having an image to work from
     @width = 100
     @height = 100
+
   end
 
   def relative_to_absolute(x, y)

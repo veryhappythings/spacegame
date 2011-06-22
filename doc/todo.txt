@@ -1,8 +1,14 @@
 DONE Strip all logic out of player object so that 2 could exist
 DONE Bullets
-Give objects unique IDs
-2 player test
+DONE Give objects unique IDs
+DONE 2 player test
+DONE Hold correct player ID on client end
+DONE full report of gamestate on conenct for client
+bug: Firing a bullet makes all players move faster.
+refactor event creation - make renderable know how to build its own event
+events know how to action themselves
 bullet collision
+Packaging/distribution
 Barriers
 stars in background
 Larger space, camera follows player

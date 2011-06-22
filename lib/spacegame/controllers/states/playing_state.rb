@@ -18,7 +18,7 @@ class PlayingState < State
     @simulation_time = 0
     @camera = Point.new(0, 0)
 
-    @use_local_server = true
+    @use_local_server = false
     if @use_local_server
       @server = SpacegameNetworkServer.new(ServerState.new)
       @server.start
@@ -26,7 +26,7 @@ class PlayingState < State
     @client = SpacegameNetworkClient.new(self)
     @client.connect
 
-    @client_id = "localclient"
+    @client_id = @timestamp.to_s
 
     Utils.logger.info("Playing State init complete.")
   end
@@ -76,10 +76,13 @@ class PlayingState < State
     when :create_object
       case event.options[:class]
       when :player
-        @player = Player.new(self)
-        @player.unique_id = event.options[:unique_id]
-        @keyboard_controller.register(@player)
-        @scene_controller.register(@player)
+        player = Player.new(self, event.options[:x], event.options[:y], event.options[:angle])
+        player.unique_id = event.options[:unique_id]
+        if event.options[:client_id] == @client_id
+          @player = player
+          @keyboard_controller.register(@player)
+        end
+        @scene_controller.register(player)
       when :bullet
         bullet = Bullet.new(self, event.options[:x], event.options[:y], event.options[:angle])
         bullet.unique_id = event.options[:unique_id]
