@@ -8,6 +8,14 @@ describe 'Player Movement' do
       @window.update
     end
 
+    after :each do
+      if server = @window.current_game_state.server
+        server.stop
+      end
+      @window.close
+    end
+
+
     it 'should allow me to move up by pressing W' do
       @window.current_game_state.scene_controller.player.y.should == 0
       @window.button_down(Gosu::Button::KbW)

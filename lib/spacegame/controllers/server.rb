@@ -30,11 +30,11 @@ class SpacegameNetworkServer < NetworkServer
       # FIXME: work for multiple players
       player = @state.objects.find {|o| o.class == Player}
       if player
-        x = msg.options[:right_move] #* event.options[:simulation_time]
-        y = msg.options[:up_move] #* event.options[:simulation_time]
+        up_move = msg.options[:up_move]
         angle = msg.options[:angle]
-        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * y) * msg.options[:simulation_time] * 10
-        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * y) * msg.options[:simulation_time] * 10
+        # Only up_move is used because left/right is controlled by angle
+        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time] * 10
+        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time] * 10
         player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
         broadcast_msg(Event.new(
           :warp,

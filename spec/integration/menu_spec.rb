@@ -5,6 +5,14 @@ describe 'Menu' do
     before :each do
       @window = GameWindow.new
     end
+
+    after :each do
+      if server = @window.current_game_state.server
+        server.stop
+      end
+      @window.close
+    end
+
     it 'should allow me to start a game' do
       @window.current_game_state.select_item 'new game'
       @window.button_down(Gosu::Button::KbReturn)
@@ -23,6 +31,13 @@ describe 'Menu' do
       @window = GameWindow.new
       @window.new_game!
       @window.button_down(Gosu::Button::KbEscape)
+    end
+
+    after :each do
+      if server = @window.current_game_state.server
+        server.stop
+      end
+      @window.close
     end
 
     it 'should allow me to resume' do

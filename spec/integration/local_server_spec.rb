@@ -6,6 +6,9 @@ describe 'Playing with a local server' do
   end
 
   after :each do
+    if server = @window.current_game_state.server
+      server.stop
+    end
     @window.close
   end
 
@@ -14,23 +17,14 @@ describe 'Playing with a local server' do
     @window.button_down(Gosu::Button::KbReturn)
     @window.current_game_state.class.should == PlayingState
     server = @window.current_game_state.server
-    server.class.should == LocalServer
+    server.class.should == SpacegameNetworkServer
 end
 
   context 'after starting the game' do
     before :each do
+      @window = GameWindow.new
       @window.new_game!
       @server = @window.current_game_state.server
-      @received_event = @server.received_events[0]
-    end
-
-    specify 'the client should have sent the server a connect event' do
-      @server.class.should == LocalServer
-      @received_event.name.should == :connect
-    end
-
-    specify 'the server should have issued a create object event' do
-      @server.events[0].name.should == :create_object
     end
 
     context 'after one update' do
@@ -40,11 +34,6 @@ end
 
       specify 'the client should have created a player object' do
         @window.current_game_state.player.should_not == nil
-      end
-
-      specify 'the client should not receive the same event twice' do
-        events = @window.current_game_state.receive_server_events
-        events.length.should == 1
       end
     end
   end

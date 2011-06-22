@@ -44,10 +44,9 @@ class PlayingState < State
     start_time = Time.now.to_f
 
     # Send events
-    if !@server_init_started
-      @server_init_started = true
-      @client.update
+    if !@player
       @server.update
+      @client.update
       @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
     end
 
@@ -55,12 +54,11 @@ class PlayingState < State
       @client.send_msg(event)
     end
 
+    # Receive events
+    @server.update
 
     # Send events
     @client.update
-
-    # Receive events
-    @server.update
 
     end_time = Time.now.to_f
 
