@@ -10,6 +10,10 @@ class Player < Renderable
       @image = Gosu::Image.new(@window, 'media/player.png', false)
     end
     @health = 100
+    #
+    # Substitute for server not having an image to work from
+    @width = 100
+    @height = 100
   end
 
   def relative_to_absolute(x, y)

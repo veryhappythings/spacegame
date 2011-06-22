@@ -8,11 +8,23 @@ class Renderable
   end
 
   def width
-    @image.width
+    if @width
+      @width
+    elsif @image
+      @image.width
+    else
+      0
+    end
   end
 
   def height
-    @image.height
+    if @height
+      @height
+    elsif @image
+      @image.height
+    else
+      0
+    end
   end
 
   def top
@@ -44,6 +56,7 @@ class Renderable
   end
 
   def update(dt)
+    false
   end
 
   def collides_with?(renderable)

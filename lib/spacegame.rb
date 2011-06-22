@@ -22,6 +22,7 @@ require "#{ROOT}/spacegame/lib/network_server"
 
 require "#{ROOT}/spacegame/models/packet_buffer"
 require "#{ROOT}/spacegame/models/player"
+require "#{ROOT}/spacegame/models/bullet"
 
 require "#{ROOT}/spacegame/views/game_window"
 

@@ -1,6 +1,8 @@
-Strip all logic out of player object so that 2 could exist
-Bullets
+DONE Strip all logic out of player object so that 2 could exist
+DONE Bullets
+Give objects unique IDs
 2 player test
+bullet collision
 Barriers
 stars in background
 Larger space, camera follows player

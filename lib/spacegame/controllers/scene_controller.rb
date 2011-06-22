@@ -8,6 +8,7 @@ class SceneController
     @objects = []
     @state = state
     @window = @state.window
+    @dirty_objects = []
   end
 
   def register(object)
@@ -24,10 +25,20 @@ class SceneController
     end
   end
 
+  def mark_as_dirty(object)
+    @dirty_objects << object
+  end
+
   def update(dt)
-    @objects.each do |object|
-      object.update(dt)
+    updated_objects = Array.new(@dirty_objects).tap do |updated_objects|
+      @objects.each do |object|
+        if object.update(dt)
+          updated_objects << object
+        end
+      end
     end
+    @dirty_objects = []
+    updated_objects
   end
 
   def send_event(event)
@@ -43,6 +54,11 @@ class SceneController
   def nearby(object)
     # Stub method - one day, this will only give a relevant list of objects
     @objects.reject{|o| o == object }
+  end
+
+  # FIXME: Make this work on unique object IDs created by server
+  def find(object_name)
+    @objects.find{|o| o.class.to_s.downcase.to_sym == object_name}
   end
 end
 

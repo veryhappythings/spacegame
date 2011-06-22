@@ -3,7 +3,7 @@ class PlayingState < State
   attr_reader :keyboard_controller
   attr_reader :scene_controller
   attr_reader :timestamp, :simulation_time
-  attr_reader :server
+  attr_reader :server, :client
   attr_reader :player
 
   attr_accessor :camera
@@ -16,17 +16,17 @@ class PlayingState < State
 
     @timestamp = (Time.now.to_f * 100000).to_i
     @simulation_time = 0
-
     @camera = Point.new(0, 0)
 
-    @server = SpacegameNetworkServer.new(ServerState.new)
-    @server.start
-
+    @use_local_server = true
+    if @use_local_server
+      @server = SpacegameNetworkServer.new(ServerState.new)
+      @server.start
+    end
     @client = SpacegameNetworkClient.new(self)
     @client.connect
 
     @client_id = "localclient"
-    #@client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
 
     Utils.logger.info("Playing State init complete.")
   end
@@ -44,8 +44,11 @@ class PlayingState < State
     start_time = Time.now.to_f
 
     # Send events
-    if !@player
-      @server.update
+    if !@connect_request_sent
+      @connect_request_sent = true
+      if @use_local_server
+        @server.update
+      end
       @client.update
       @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
     end
@@ -55,7 +58,9 @@ class PlayingState < State
     end
 
     # Receive events
-    @server.update
+    if @use_local_server
+      @server.update
+    end
 
     # Send events
     @client.update
@@ -69,22 +74,27 @@ class PlayingState < State
     Utils.logger.info("Client handling event: #{event.to_s}")
     case event.name
     when :create_object
-      if event.options[:object] == :player
+      case event.options[:object]
+      when :player
         @player = Player.new(self)
         @keyboard_controller.register(@player)
         @scene_controller.register(@player)
+      when :bullet
+        bullet = Bullet.new(self, event.options[:x], event.options[:y], event.options[:angle])
+        @scene_controller.register(bullet)
       else
         Utils.logger.warn("I don't know how to create #{event.options[:object]}")
       end
     when :warp
-      if event.options[:object] == :player && @player
-        @player.warp(event.options[:x], event.options[:y], event.options[:angle])
+      if object = @scene_controller.find(event.options[:object])
+        object.warp(event.options[:x], event.options[:y], event.options[:angle])
       end
     else
       Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
     end
   end
 
+  # Controls
   def button_down(id)
     @keyboard_controller.button_down(id)
   end
