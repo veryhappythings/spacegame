@@ -4,8 +4,9 @@ class PlayingState < State
   attr_reader :scene_controller
   attr_reader :timestamp, :simulation_time
   attr_reader :server, :client
-  attr_reader :player
+  attr_reader :client_id
 
+  attr_accessor :player
   attr_accessor :camera
 
   def initialize(window)
@@ -74,22 +75,7 @@ class PlayingState < State
     Utils.logger.info("Client handling msg: #{msg.to_s}")
     case msg.name
     when :create_object
-      case msg.klass
-      when :player
-        player = Player.new(self, msg.x, msg.y, msg.angle)
-        player.unique_id = msg.unique_id
-        if msg.client_id == @client_id
-          @player = player
-          @keyboard_controller.register(@player)
-        end
-        @scene_controller.register(player)
-      when :bullet
-        bullet = Bullet.new(self, msg.x, msg.y, msg.angle)
-        bullet.unique_id = msg.unique_id
-        @scene_controller.register(bullet)
-      else
-        Utils.logger.warn("I don't know how to create #{msg.klass}")
-      end
+      msg.process(self)
     when :warp
       msg.process(self)
     else

@@ -1,6 +1,7 @@
 class ServerState < State
   attr_accessor :objects
   attr_accessor :scene_controller
+  attr_accessor :server
 
   def initialize
     @scene_controller = SceneController.new(self)

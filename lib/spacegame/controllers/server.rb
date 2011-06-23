@@ -4,6 +4,7 @@ class SpacegameNetworkServer < NetworkServer
   def initialize(state, options={})
     super(options)
     @state = state
+    @state.server = self
     @clients = {}
     @simulation_time = 0
     @timestamp = (Time.now.to_f * 100000).to_i
@@ -74,14 +75,7 @@ class SpacegameNetworkServer < NetworkServer
         end
       end
     when :create_object
-      case msg.klass
-      when :bullet
-        bullet = Bullet.new(@state, msg.x, msg.y, msg.angle)
-        @state.scene_controller.register(bullet)
-        broadcast_msg(bullet.to_msg(nil, msg.timestamp))
-      else
-        Utils.logger.warn("Server: I don't know how to create a #{msg.klass}")
-      end
+      msg.process(@state)
     when :move
       @pending_move_messages << msg
     else
