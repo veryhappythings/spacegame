@@ -67,7 +67,7 @@ class PlayingState < State
 
     end_time = Time.now.to_f
 
-    @simulation_time = end_time - start_time
+    @simulation_time = end_time - start_time + dt
   end
 
   def handle_msg(msg)
