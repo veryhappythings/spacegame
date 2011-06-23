@@ -50,7 +50,7 @@ class PlayingState < State
         @server.update(@simulation_time)
       end
       @client.update
-      @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
+      @client.send_msg(Connect.new(:client_id => @client_id, :timestamp => @timestamp))
     end
 
     @keyboard_controller.update(dt).each do |event|
@@ -70,32 +70,32 @@ class PlayingState < State
     @simulation_time = end_time - start_time
   end
 
-  def handle_event(event)
-    Utils.logger.info("Client handling event: #{event.to_s}")
-    case event.name
+  def handle_msg(msg)
+    Utils.logger.info("Client handling msg: #{msg.to_s}")
+    case msg.name
     when :create_object
-      case event.options[:class]
+      case msg.klass
       when :player
-        player = Player.new(self, event.options[:x], event.options[:y], event.options[:angle])
-        player.unique_id = event.options[:unique_id]
-        if event.options[:client_id] == @client_id
+        player = Player.new(self, msg.x, msg.y, msg.angle)
+        player.unique_id = msg.unique_id
+        if msg.client_id == @client_id
           @player = player
           @keyboard_controller.register(@player)
         end
         @scene_controller.register(player)
       when :bullet
-        bullet = Bullet.new(self, event.options[:x], event.options[:y], event.options[:angle])
-        bullet.unique_id = event.options[:unique_id]
+        bullet = Bullet.new(self, msg.x, msg.y, msg.angle)
+        bullet.unique_id = msg.unique_id
         @scene_controller.register(bullet)
       else
-        Utils.logger.warn("I don't know how to create #{event.options[:object]}")
+        Utils.logger.warn("I don't know how to create #{msg.klass}")
       end
     when :warp
-      if object = @scene_controller.find(event.options[:unique_id])
-        object.warp(event.options[:x], event.options[:y], event.options[:angle])
+      if object = @scene_controller.find(msg.unique_id)
+        object.warp(msg.x, msg.y, msg.angle)
       end
     else
-      Utils.logger.warn("I don't know how to handle event: #{event.to_s}")
+      Utils.logger.warn("I don't know how to handle msg: #{msg.to_s}")
     end
   end
 

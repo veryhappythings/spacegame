@@ -15,10 +15,10 @@ class SpacegameNetworkServer < NetworkServer
   end
 
   def handle_move_msg(simulation_time, msg)
-    player = @state.scene_controller.find(msg.options[:unique_id])
+    player = @state.scene_controller.find(msg.unique_id)
     if player
-      up_move = msg.options[:up_move]
-      angle = msg.options[:angle]
+      up_move = msg.up_move
+      angle = msg.angle
       # Only up_move is used because left/right is controlled by angle
       x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * simulation_time
       y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * simulation_time
@@ -42,8 +42,7 @@ class SpacegameNetworkServer < NetworkServer
 
     updated_objects = @state.update(simulation_time)
     updated_objects.each do |obj|
-      broadcast_msg(Event.new(
-        :warp,
+      broadcast_msg(Warp.new(
         :unique_id => obj.unique_id,
         :x => obj.x,
         :y => obj.y,
@@ -60,28 +59,28 @@ class SpacegameNetworkServer < NetworkServer
 
     case msg.name
     when :connect
-      if @clients.has_key? msg.options[:client_id]
-        Utils.logger.error("SERVER: client with ID #{msg.options[:client_id]} already exists!")
+      if @clients.has_key? msg.client_id
+        Utils.logger.error("SERVER: client with ID #{msg.client_id} already exists!")
       end
 
-      @clients[msg.options[:client_id]] = msg.options[:timestamp]
+      @clients[msg.client_id] = msg.timestamp
       player = Player.new(@state, 0, 0, 0)
       @state.scene_controller.register(player)
 
-      broadcast_msg(player.to_msg(msg.options[:client_id], msg.options[:timestamp]))
+      broadcast_msg(player.to_msg(msg.client_id, msg.timestamp))
       @state.scene_controller.objects.each do |object|
         unless object == player
-          send_msg(socket, object.to_msg(nil, msg.options[:timestamp]))
+          send_msg(socket, object.to_msg(nil, msg.timestamp))
         end
       end
     when :create_object
-      case msg.options[:class]
+      case msg.klass
       when :bullet
-        bullet = Bullet.new(@state, msg.options[:x], msg.options[:y], msg.options[:angle])
+        bullet = Bullet.new(@state, msg.x, msg.y, msg.angle)
         @state.scene_controller.register(bullet)
-        broadcast_msg(bullet.to_msg(nil, msg.options[:timestamp]))
+        broadcast_msg(bullet.to_msg(nil, msg.timestamp))
       else
-        Utils.logger.warn("Server: I don't know how to create a #{msg[:object]}")
+        Utils.logger.warn("Server: I don't know how to create a #{msg.klass}")
       end
     when :move
       @pending_move_messages << msg

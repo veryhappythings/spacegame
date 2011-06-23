@@ -77,9 +77,8 @@ class Renderable
   end
 
   def to_msg(client_id, timestamp)
-    Event.new(
-      :create_object,
-      :class => self.class.to_s.downcase.to_sym,
+    CreateObject.new(
+      :klass => self.class.to_s.underscore.to_sym,
       :client_id => client_id,
       :unique_id => @unique_id,
       :x => @x,

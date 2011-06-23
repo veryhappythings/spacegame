@@ -1,0 +1,2 @@
+class Warp < Message
+end

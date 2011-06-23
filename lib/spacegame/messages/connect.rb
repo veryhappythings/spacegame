@@ -1,0 +1,2 @@
+class Connect < Message
+end

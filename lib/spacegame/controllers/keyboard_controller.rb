@@ -29,12 +29,12 @@ class KeyboardController
     # Immediate actions
     case id
     when Gosu::Button::KbSpace then
-      @state.client.send_msg(Event.new(
-        :create_object,
-        :class => :bullet,
+      @state.client.send_msg(CreateObject.new(
+        :klass => :bullet,
         :x => @state.player.x,
         :y => @state.player.y,
-        :angle => @state.player.angle
+        :angle => @state.player.angle,
+        :timestamp => @state.timestamp
       ))
     when Gosu::Button::KbEscape then
       @window.enter_state MenuState.new(@window)
@@ -51,7 +51,7 @@ class KeyboardController
   end
 
   def update(dt)
-    events = []
+    msgs = []
 
     controls = {
       :kb_left_down => [Gosu::Button::KbLeft, Gosu::Button::KbA],
@@ -61,26 +61,57 @@ class KeyboardController
     }
     controls.each_pair do |signal, keys|
       if keys.any? { |key| button_down? key }
-          event = self.send(signal)
-          event.options[:dt] = dt
-          events << event
+          msg = self.send(signal, dt)
+          msgs << msg
       end
     end
 
-    return events
+    return msgs
   end
 
-  def kb_left_down
-    Event.new(:move, :right_move => 0, :up_move => 0, :angle => -1, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
+  def kb_left_down(dt)
+    Move.new(
+      :right_move => 0,
+      :up_move => 0,
+      :angle => -1,
+      :timestamp => @state.timestamp,
+      :unique_id => @state.player.unique_id,
+      :simulation_time => @state.simulation_time,
+      :dt => dt
+    )
   end
-  def kb_right_down
-    Event.new(:move, :right_move => 0, :up_move => 0, :angle => 1, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
+  def kb_right_down(dt)
+    Move.new(
+      :right_move => 0,
+      :up_move => 0,
+      :angle => 1,
+      :timestamp => @state.timestamp,
+      :unique_id => @state.player.unique_id,
+      :simulation_time => @state.simulation_time,
+      :dt => dt
+    )
   end
-  def kb_up_down
-    Event.new(:move, :right_move => 0, :up_move => 1, :angle => 0, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
+  def kb_up_down(dt)
+    Move.new(
+      :right_move => 0,
+      :up_move => 1,
+      :angle => 0,
+      :timestamp => @state.timestamp,
+      :unique_id => @state.player.unique_id,
+      :simulation_time => @state.simulation_time,
+      :dt => dt
+    )
   end
-  def kb_down_down
-    Event.new(:move, :right_move => 0, :up_move => -1, :angle => 0, :timestamp => @state.timestamp, :unique_id => @state.player.unique_id, :simulation_time => @state.simulation_time)
+  def kb_down_down(dt)
+    Move.new(
+      :right_move => 0,
+      :up_move => -1,
+      :angle => 0,
+      :timestamp => @state.timestamp,
+      :unique_id => @state.player.unique_id,
+      :simulation_time => @state.simulation_time,
+      :dt => dt
+    )
   end
 end
 

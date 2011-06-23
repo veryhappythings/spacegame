@@ -7,7 +7,7 @@ describe Player do
 
     msg = player.to_msg('client_id', '11111')
     msg.name.should == :create_object
-    msg.options[:class].should == :player
+    msg.klass.should == :player
   end
 end
 

@@ -7,7 +7,7 @@ class SpacegameNetworkClient < NetworkClient
 
   # Receive incoming messages from the server
   def on_msg(msg)
-    @state.handle_event(msg)
+    @state.handle_msg(msg)
   end
 
   def send_msg(msg)

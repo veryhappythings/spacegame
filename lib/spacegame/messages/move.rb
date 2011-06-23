@@ -1,0 +1,2 @@
+class Move < Message
+end

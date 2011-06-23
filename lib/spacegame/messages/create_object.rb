@@ -1,0 +1,2 @@
+class CreateObject < Message
+end

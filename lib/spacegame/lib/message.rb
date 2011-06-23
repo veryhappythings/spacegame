@@ -16,6 +16,6 @@ class Message
   end
 
   def name
-    self.class.to_s.downcase.to_sym
+    self.class.to_s.underscore.to_sym
   end
 end
