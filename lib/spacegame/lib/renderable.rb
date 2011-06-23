@@ -75,5 +75,18 @@ class Renderable
   def process_event(event)
 
   end
+
+  def to_msg(client_id, timestamp)
+    Event.new(
+      :create_object,
+      :class => self.class.to_s.downcase.to_sym,
+      :client_id => client_id,
+      :unique_id => @unique_id,
+      :x => @x,
+      :y => @y,
+      :angle => @angle,
+      :timestamp => timestamp
+    )
+  end
 end
 
