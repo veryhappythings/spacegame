@@ -14,3 +14,5 @@ Packaging/distribution
 Barriers
 stars in background
 Larger space, camera follows player
+
+Refactor: CreateObject#process contains client and server code
