@@ -14,6 +14,7 @@ class Utils
 end
 
 require "#{ROOT}/spacegame/lib/event"
+require "#{ROOT}/spacegame/lib/message"
 require "#{ROOT}/spacegame/lib/point"
 require "#{ROOT}/spacegame/lib/renderable"
 require "#{ROOT}/spacegame/lib/state"

@@ -5,8 +5,8 @@ DONE 2 player test
 DONE Hold correct player ID on client end
 DONE full report of gamestate on conenct for client
 DONE bug: Firing a bullet makes all players move faster.
+DONE refactor event creation - make renderable know how to build its own event
 Refactor how player move requests are handled
-refactor event creation - make renderable know how to build its own event
 events know how to action themselves
 bullet collision
 Packaging/distribution
