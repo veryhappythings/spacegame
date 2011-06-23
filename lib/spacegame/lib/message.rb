@@ -18,4 +18,7 @@ class Message
   def name
     self.class.to_s.underscore.to_sym
   end
+
+  def process(state)
+  end
 end

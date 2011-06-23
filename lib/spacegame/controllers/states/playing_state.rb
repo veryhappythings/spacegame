@@ -91,9 +91,7 @@ class PlayingState < State
         Utils.logger.warn("I don't know how to create #{msg.klass}")
       end
     when :warp
-      if object = @scene_controller.find(msg.unique_id)
-        object.warp(msg.x, msg.y, msg.angle)
-      end
+      msg.process(self)
     else
       Utils.logger.warn("I don't know how to handle msg: #{msg.to_s}")
     end
