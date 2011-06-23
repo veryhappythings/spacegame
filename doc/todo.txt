@@ -7,7 +7,7 @@ DONE full report of gamestate on conenct for client
 DONE bug: Firing a bullet makes all players move faster.
 DONE refactor event creation - make renderable know how to build its own event
 DONE Refactor how player move requests are handled
-events know how to action themselves
+DONE events know how to action themselves
 bullet collision
 player acceleration, velocity etc - asteroids type controls
 Packaging/distribution
@@ -16,3 +16,4 @@ stars in background
 Larger space, camera follows player
 
 Refactor: CreateObject#process contains client and server code
+Refactor: Player movement
