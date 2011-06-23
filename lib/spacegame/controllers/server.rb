@@ -15,26 +15,13 @@ class SpacegameNetworkServer < NetworkServer
     super(socket)
   end
 
-  def handle_move_msg(simulation_time, msg)
-    player = @state.scene_controller.find(msg.unique_id)
-    if player
-      up_move = msg.up_move
-      angle = msg.angle
-      # Only up_move is used because left/right is controlled by angle
-      x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * simulation_time
-      y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * simulation_time
-      player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
-      @state.scene_controller.mark_as_dirty(player)
-    end
-  end
-
   def update(simulation_time)
     super()
     @timestamp = (Time.now.to_f * 100000).to_i
 
     [].tap do |handled_messages|
       @pending_move_messages.each do |msg|
-        handle_move_msg(simulation_time, msg)
+        msg.process(@state, simulation_time)
         handled_messages << msg
       end
     end.each do |msg|
