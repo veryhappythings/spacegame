@@ -68,27 +68,10 @@ class SpacegameNetworkServer < NetworkServer
       player = Player.new(@state, 0, 0, 0)
       @state.scene_controller.register(player)
 
-      broadcast_msg(Event.new(
-        :create_object,
-        :class => :player,
-        :client_id => msg.options[:client_id],
-        :unique_id => player.unique_id,
-        :x => player.x,
-        :y => player.y,
-        :angle => player.angle,
-        :timestamp => msg.options[:timestamp]
-      ))
+      broadcast_msg(player.to_msg(msg.options[:client_id], msg.options[:timestamp]))
       @state.scene_controller.objects.each do |object|
         unless object == player
-          send_msg(socket, Event.new(
-            :create_object,
-            :class => object.class.to_s.downcase.to_sym,
-            :unique_id => object.unique_id,
-            :x => object.x,
-            :y => object.y,
-            :angle => object.angle,
-            :timestamp => msg.options[:timestamp]
-          ))
+          send_msg(socket, object.to_msg(nil, msg.options[:timestamp]))
         end
       end
     when :create_object
@@ -96,15 +79,7 @@ class SpacegameNetworkServer < NetworkServer
       when :bullet
         bullet = Bullet.new(@state, msg.options[:x], msg.options[:y], msg.options[:angle])
         @state.scene_controller.register(bullet)
-        broadcast_msg(Event.new(
-          :create_object,
-          :class => :bullet,
-          :unique_id => bullet.unique_id,
-          :x => bullet.x,
-          :y => bullet.y,
-          :angle => bullet.angle,
-          :timestamp => msg.options[:timestamp]
-        ))
+        broadcast_msg(bullet.to_msg(nil, msg.options[:timestamp]))
       else
         Utils.logger.warn("Server: I don't know how to create a #{msg[:object]}")
       end
