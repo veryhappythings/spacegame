@@ -1,5 +1,5 @@
 class Bullet < Renderable
-  SPEED = 200
+  SPEED = 100
 
   def initialize(state, x, y, angle)
     super()

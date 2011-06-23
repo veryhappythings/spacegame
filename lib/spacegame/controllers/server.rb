@@ -13,11 +13,10 @@ class SpacegameNetworkServer < NetworkServer
     super(socket)
   end
 
-  def update
-    start_time = Time.now.to_f
+  def update(simulation_time)
+    super()
     @timestamp = (Time.now.to_f * 100000).to_i
-    super
-    updated_objects = @state.update(@simulation_time)
+    updated_objects = @state.update(simulation_time)
 
     updated_objects.each do |obj|
       broadcast_msg(Event.new(
@@ -26,12 +25,10 @@ class SpacegameNetworkServer < NetworkServer
         :x => obj.x,
         :y => obj.y,
         :angle => obj.angle,
-        :timestamp => @timestamp
+        :timestamp => @timestamp,
+        :simulation_time => simulation_time
       ))
     end
-    end_time = Time.now.to_f
-
-    @simulation_time = end_time - start_time
   end
 
   def on_msg(socket, msg)
@@ -89,14 +86,13 @@ class SpacegameNetworkServer < NetworkServer
         Utils.logger.warn("Server: I don't know how to create a #{msg[:object]}")
       end
     when :move
-      # FIXME: work for multiple players
       player = @state.scene_controller.find(msg.options[:unique_id])
       if player
         up_move = msg.options[:up_move]
         angle = msg.options[:angle]
         # Only up_move is used because left/right is controlled by angle
-        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time] * 10
-        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time] * 10
+        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time]
+        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time]
         player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
         @state.scene_controller.mark_as_dirty(player)
       end

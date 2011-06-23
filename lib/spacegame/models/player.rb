@@ -1,5 +1,5 @@
 class Player < Renderable
-  SPEED = 100
+  SPEED = 1000
 
   def initialize(state, x, y, angle)
     super()

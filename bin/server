@@ -6,7 +6,12 @@ require 'spacegame'
 
 server = SpacegameNetworkServer.new(ServerState.new)
 server.start
+simulation_time = 0
 while true
-  server.update
+  start_time = Time.now.to_f
+  server.update(simulation_time)
+  sleep(1.0/30) # limit ticks per second on server
+  end_time = Time.now.to_f
+  simulation_time = end_time - start_time
 end
 
