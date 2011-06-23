@@ -1,5 +1,6 @@
 class SpacegameNetworkServer < NetworkServer
   # Not yet sure how to attach sockets to particular players
+  attr_accessor :clients
 
   def initialize(state, options={})
     super(options)
@@ -47,20 +48,7 @@ class SpacegameNetworkServer < NetworkServer
 
     case msg.name
     when :connect
-      if @clients.has_key? msg.client_id
-        Utils.logger.error("SERVER: client with ID #{msg.client_id} already exists!")
-      end
-
-      @clients[msg.client_id] = msg.timestamp
-      player = Player.new(@state, 0, 0, 0)
-      @state.scene_controller.register(player)
-
-      broadcast_msg(player.to_msg(msg.client_id, msg.timestamp))
-      @state.scene_controller.objects.each do |object|
-        unless object == player
-          send_msg(socket, object.to_msg(nil, msg.timestamp))
-        end
-      end
+      msg.process(@state)
     when :create_object
       msg.process(@state)
     when :move
