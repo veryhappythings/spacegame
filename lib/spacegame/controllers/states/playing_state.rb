@@ -18,7 +18,7 @@ class PlayingState < State
     @simulation_time = 0
     @camera = Point.new(0, 0)
 
-    @use_local_server = false
+    @use_local_server = true
     if @use_local_server
       @server = SpacegameNetworkServer.new(ServerState.new)
       @server.start
@@ -47,7 +47,7 @@ class PlayingState < State
     if !@connect_request_sent
       @connect_request_sent = true
       if @use_local_server
-        @server.update
+        @server.update(@simulation_time)
       end
       @client.update
       @client.send_msg(Event.new(:connect, :client_id => @client_id, :timestamp => @timestamp))
@@ -59,7 +59,7 @@ class PlayingState < State
 
     # Receive events
     if @use_local_server
-      @server.update
+      @server.update(@simulation_time)
     end
 
     # Send events
