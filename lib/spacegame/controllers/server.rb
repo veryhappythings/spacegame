@@ -7,17 +7,40 @@ class SpacegameNetworkServer < NetworkServer
     @clients = {}
     @simulation_time = 0
     @timestamp = (Time.now.to_f * 100000).to_i
+    @pending_move_messages = []
   end
 
   def on_connect(socket)
     super(socket)
   end
 
+  def handle_move_msg(simulation_time, msg)
+    player = @state.scene_controller.find(msg.options[:unique_id])
+    if player
+      up_move = msg.options[:up_move]
+      angle = msg.options[:angle]
+      # Only up_move is used because left/right is controlled by angle
+      x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * simulation_time
+      y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * simulation_time
+      player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
+      @state.scene_controller.mark_as_dirty(player)
+    end
+  end
+
   def update(simulation_time)
     super()
     @timestamp = (Time.now.to_f * 100000).to_i
-    updated_objects = @state.update(simulation_time)
 
+    [].tap do |handled_messages|
+      @pending_move_messages.each do |msg|
+        handle_move_msg(simulation_time, msg)
+        handled_messages << msg
+      end
+    end.each do |msg|
+      @pending_move_messages.delete msg
+    end
+
+    updated_objects = @state.update(simulation_time)
     updated_objects.each do |obj|
       broadcast_msg(Event.new(
         :warp,
@@ -86,16 +109,7 @@ class SpacegameNetworkServer < NetworkServer
         Utils.logger.warn("Server: I don't know how to create a #{msg[:object]}")
       end
     when :move
-      player = @state.scene_controller.find(msg.options[:unique_id])
-      if player
-        up_move = msg.options[:up_move]
-        angle = msg.options[:angle]
-        # Only up_move is used because left/right is controlled by angle
-        x_movement = Gosu::offset_x(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time]
-        y_movement = Gosu::offset_y(player.angle + angle, Player::SPEED * up_move) * msg.options[:simulation_time]
-        player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
-        @state.scene_controller.mark_as_dirty(player)
-      end
+      @pending_move_messages << msg
     else
       Utils.logger.warn("Server: I don't know how to handle this: #{msg.to_s}")
     end
