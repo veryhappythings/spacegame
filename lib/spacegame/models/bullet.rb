@@ -1,10 +1,11 @@
 class Bullet < Renderable
   SPEED = 100
 
-  def initialize(state, x, y, angle)
+  def initialize(state, x, y, angle, creator)
     super()
     @state = state
     @window = @state.window
+    @creator = creator
     if @window
       @image = Gosu::Image.new(@window, 'media/bullet.png', false)
     end
@@ -23,8 +24,8 @@ class Bullet < Renderable
     @x += Gosu::offset_x(@angle, SPEED) * dt
     @y += Gosu::offset_y(@angle, SPEED) * dt
 
-    @state.scene_controller.objects.each do |object|
-      if collides_with? object
+    @state.scene_controller.nearby(self).each do |object|
+      if (object.unique_id != @creator) && collides_with?(object)
         destroy
         object.hit_by(self)
       end

@@ -21,4 +21,8 @@ class Message
 
   def process(state)
   end
+
+  def to_s
+    "#{name} #{@options}"
+  end
 end

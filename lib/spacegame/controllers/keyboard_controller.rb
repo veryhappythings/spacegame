@@ -34,7 +34,8 @@ class KeyboardController
         :x => @state.player.x,
         :y => @state.player.y,
         :angle => @state.player.angle,
-        :timestamp => @state.timestamp
+        :timestamp => @state.timestamp,
+        :creator => @state.player.unique_id,
       ))
     when Gosu::Button::KbEscape then
       @window.enter_state MenuState.new(@window)

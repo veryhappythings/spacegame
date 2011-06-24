@@ -96,7 +96,8 @@ class Renderable
       :x => @x,
       :y => @y,
       :angle => @angle,
-      :timestamp => timestamp
+      :timestamp => timestamp,
+      :creator => @creator
     )
   end
 end

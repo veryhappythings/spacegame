@@ -2,6 +2,7 @@ class CreateObject < Message
   def process(state)
     case self.klass
     when :player
+      # Only clients do this
       player = Player.new(state, self.x, self.y, self.angle)
       player.unique_id = self.unique_id
       if self.client_id == state.client_id
@@ -10,7 +11,8 @@ class CreateObject < Message
       end
       state.scene_controller.register(player)
     when :bullet
-      bullet = Bullet.new(state, self.x, self.y, self.angle)
+      # Clients and servers both do this
+      bullet = Bullet.new(state, self.x, self.y, self.angle, self.creator)
       state.scene_controller.register(bullet)
 
       if state.is_a? ServerState
