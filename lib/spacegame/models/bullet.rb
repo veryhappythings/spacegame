@@ -23,12 +23,14 @@ class Bullet < Renderable
     @x += Gosu::offset_x(@angle, SPEED) * dt
     @y += Gosu::offset_y(@angle, SPEED) * dt
 
+    @state.scene_controller.objects.each do |object|
+      if collides_with? object
+        destroy
+        object.hit_by(self)
+      end
+    end
     # Inform server of update
     return true
-  end
-
-  def destroy!
-    @state.scene_controller.deregister(self)
   end
 end
 

@@ -31,14 +31,22 @@ class SpacegameNetworkServer < NetworkServer
 
     updated_objects = @state.update(simulation_time)
     updated_objects.each do |obj|
-      broadcast_msg(Warp.new(
-        :unique_id => obj.unique_id,
-        :x => obj.x,
-        :y => obj.y,
-        :angle => obj.angle,
-        :timestamp => @timestamp,
-        :simulation_time => simulation_time
-      ))
+      if obj.destroyed?
+        broadcast_msg(Destroy.new(
+          :unique_id => obj.unique_id,
+          :timestamp => @timestamp
+        ))
+        @state.scene_controller.deregister(obj)
+      else
+        broadcast_msg(Warp.new(
+          :unique_id => obj.unique_id,
+          :x => obj.x,
+          :y => obj.y,
+          :angle => obj.angle,
+          :timestamp => @timestamp,
+          :simulation_time => simulation_time
+        ))
+      end
     end
   end
 

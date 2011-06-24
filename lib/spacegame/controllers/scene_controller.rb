@@ -32,7 +32,7 @@ class SceneController
   def update(dt)
     updated_objects = Array.new(@dirty_objects).tap do |updated_objects|
       @objects.each do |object|
-        if object.update(dt)
+        if object.update(dt) || object.destroyed?
           updated_objects << object
         end
       end

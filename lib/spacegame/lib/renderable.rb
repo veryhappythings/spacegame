@@ -5,6 +5,7 @@ class Renderable
 
   def initialize(options={})
     @x = @y = @angle = 0.0
+    @destroyed = false
     @unique_id = @@unique_id_counter + 1
     @@unique_id_counter += 1
   end
@@ -57,6 +58,13 @@ class Renderable
     end
   end
 
+  def destroy
+    @destroyed = true
+  end
+  def destroyed?
+    @destroyed
+  end
+
   def update(dt)
     false
   end
@@ -70,6 +78,10 @@ class Renderable
         right < renderable.left ||
         left > renderable.right)
     end
+  end
+
+  def hit_by(object)
+
   end
 
   def process_event(event)

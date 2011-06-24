@@ -9,6 +9,8 @@ class PlayingState < State
   attr_accessor :player
   attr_accessor :camera
 
+  ACCEPT_MESSAGES = [:create_object, :warp, :destroy]
+
   def initialize(window)
     @window = window
 
@@ -73,10 +75,7 @@ class PlayingState < State
 
   def handle_msg(msg)
     Utils.logger.info("Client handling msg: #{msg.to_s}")
-    case msg.name
-    when :create_object
-      msg.process(self)
-    when :warp
+    if ACCEPT_MESSAGES.include? msg.name
       msg.process(self)
     else
       Utils.logger.warn("I don't know how to handle msg: #{msg.to_s}")

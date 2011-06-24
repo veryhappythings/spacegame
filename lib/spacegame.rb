@@ -31,6 +31,7 @@ require "#{ROOT}/spacegame/messages/connect"
 require "#{ROOT}/spacegame/messages/create_object"
 require "#{ROOT}/spacegame/messages/move"
 require "#{ROOT}/spacegame/messages/warp"
+require "#{ROOT}/spacegame/messages/destroy"
 
 require "#{ROOT}/spacegame/views/game_window"
 
