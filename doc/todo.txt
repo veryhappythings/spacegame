@@ -8,12 +8,15 @@ DONE bug: Firing a bullet makes all players move faster.
 DONE refactor event creation - make renderable know how to build its own event
 DONE Refactor how player move requests are handled
 DONE events know how to action themselves
-bullet collision
-player acceleration, velocity etc - asteroids type controls
+DONE bullet collision
+DONE player acceleration, velocity etc - asteroids type controls
+Angle of velocity is stored, player moves along that angle
+Velocity in another direction moves the angle of velocity
 Packaging/distribution
 Barriers
 stars in background
 Larger space, camera follows player
+Scores, kills, deaths
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement

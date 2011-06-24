@@ -1,6 +1,8 @@
 class Player < Renderable
   SPEED = 50
+  DECELERATION = 10
 
+  attr_accessor :velocity, :angle
   def initialize(state, x, y, angle)
     super()
     @state = state
@@ -18,6 +20,7 @@ class Player < Renderable
     @width = 100
     @height = 100
 
+    @velocity = 0
   end
 
   def relative_to_absolute(x, y)
@@ -45,6 +48,20 @@ class Player < Renderable
     if object.is_a? Bullet
       damage(100)
     end
+  end
+
+  def update(dt)
+    @x += Gosu::offset_x(@angle, @velocity) * dt
+    @y += Gosu::offset_y(@angle, @velocity) * dt
+
+    if @velocity > 0
+      @velocity -= DECELERATION * dt
+    end
+    if @velocity < 0
+      @velocity += DECELERATION * dt
+    end
+
+    return true
   end
 end
 
