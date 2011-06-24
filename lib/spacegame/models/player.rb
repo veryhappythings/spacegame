@@ -36,6 +36,15 @@ class Player < Renderable
 
   def damage(value)
     @health -= value
+    if @health <= 0
+      destroy
+    end
+  end
+
+  def hit_by(object)
+    if object.is_a? Bullet
+      damage(100)
+    end
   end
 end
 

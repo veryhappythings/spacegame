@@ -1,5 +1,5 @@
 class Connect < Message
-  def process(state)
+  def process(state, socket)
     if state.server.clients.has_key? self.client_id
       Utils.logger.error("SERVER: client with ID #{self.client_id} already exists!")
     end

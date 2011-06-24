@@ -21,7 +21,7 @@ class PlayingState < State
     @simulation_time = 0
     @camera = Point.new(0, 0)
 
-    @use_local_server = true
+    @use_local_server = false
     if @use_local_server
       @server = SpacegameNetworkServer.new(ServerState.new)
       @server.start

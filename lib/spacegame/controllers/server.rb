@@ -56,7 +56,7 @@ class SpacegameNetworkServer < NetworkServer
 
     case msg.name
     when :connect
-      msg.process(@state)
+      msg.process(@state, socket)
     when :create_object
       msg.process(@state)
     when :move
