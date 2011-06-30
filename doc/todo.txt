@@ -13,10 +13,11 @@ DONE player acceleration, velocity etc - asteroids type controls
 DONE Angle of velocity is stored, player moves along that angle
 DONE Velocity in another direction moves the angle of velocity
 DONE OSX Packaging/distribution
-stars in background
-Barriers
+DONE stars in background
 Larger space, camera follows player
+Barriers
 Scores, kills, deaths
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement
+Refactor: Star field movement code

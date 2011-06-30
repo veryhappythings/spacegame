@@ -50,11 +50,11 @@ class Renderable
     @x, @y, @angle = x, y, angle
   end
 
-  def draw(camera)
+  def draw(camera, z=1)
     if @window && @image
       draw_x = @x - camera.x + @window.width / 2
       draw_y = @y - camera.y + @window.height / 2
-      @image.draw_rot(draw_x, draw_y, 1, @angle)
+      @image.draw_rot(draw_x, draw_y, z, @angle)
     end
   end
 

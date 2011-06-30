@@ -68,13 +68,17 @@ class PlayingState < State
     # Send events
     @client.update
 
+    @camera.x = @player.x
+    @camera.y = @player.y
+    @scene_controller.visual_update(dt)
+
     end_time = Time.now.to_f
 
     @simulation_time = end_time - start_time + dt
   end
 
   def handle_msg(msg)
-    Utils.logger.info("Client handling msg: #{msg.to_s}")
+    #Utils.logger.info("Client handling msg: #{msg.to_s}")
     if ACCEPT_MESSAGES.include? msg.name
       msg.process(self)
     else
