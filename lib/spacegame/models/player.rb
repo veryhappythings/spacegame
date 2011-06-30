@@ -19,8 +19,8 @@ class Player < Renderable
     @collidable = true
 
     # Substitute for server not having an image to work from
-    @width = 100
-    @height = 100
+    @width = 50
+    @height = 50
 
     @velocity = 0
     @movement_angle = angle
@@ -61,6 +61,9 @@ class Player < Renderable
 
     if @velocity > 0
       @velocity -= DECELERATION * dt
+    end
+    if (-1..1).include?(@velocity)
+      @movement_angle = @angle
     end
     if @velocity < 0
       @velocity += DECELERATION * dt

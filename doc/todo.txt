@@ -16,8 +16,9 @@ DONE OSX Packaging/distribution
 DONE stars in background
 DONE Larger space, camera follows player
 DONE Barriers
+DONE Bug: Velocity takes a long time to change direction even when stopped
 Scores, kills, deaths
-Bug: Velocity takes a long time to change direction even when stopped
+Picking up stuff, inventory
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement

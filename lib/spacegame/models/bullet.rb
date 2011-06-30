@@ -14,8 +14,8 @@ class Bullet < Renderable
     @y = y
 
     # Substitute for server not having an image to work from
-    @width = 10
-    @height = 100
+    @width = 8
+    @height = 16
 
     @state.scene_controller.register(self)
   end
