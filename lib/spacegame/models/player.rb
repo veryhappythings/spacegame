@@ -67,12 +67,10 @@ class Player < Renderable
     end
 
     @state.scene_controller.nearby(self).each do |object|
-      puts "Player vs #{object.class.to_s}: #{collides_with?(object)} #{object.collidable?}"
       if collides_with?(object) && object.collidable?
         @x = old_x
         @y = old_y
         @velocity = 0
-        puts 'BOOM'
         break
       end
     end
