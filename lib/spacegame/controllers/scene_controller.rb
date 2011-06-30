@@ -45,15 +45,16 @@ class SceneController
       @level_objects.each do |object|
         rel_x, rel_y = absolute_to_relative(object.x, object.y)
         if rel_y > @window.height + object.height
-          object.warp(object.x, object.y - @window.height - object.width*2, object.angle)
+          object.warp(object.x, object.y - @window.height - object.width*2, rand(3)*90)
         elsif rel_y < 0 - object.height
-          object.warp(object.x, object.y + @window.height + object.width*2, object.angle)
+          object.warp(object.x, object.y + @window.height + object.width*2, rand(3)*90)
         end
         if rel_x > @window.width + object.width
-          object.warp(object.x - @window.width - object.width*2, object.y, object.angle)
+          object.warp(object.x - @window.width - object.width*2, object.y, rand(3)*90)
         elsif rel_x < 0 - object.width
-          object.warp(object.x + @window.width + object.width*2, object.y, object.angle)
+          object.warp(object.x + @window.width + object.width*2, object.y, rand(3)*90)
         end
+
       end
     end
   end
