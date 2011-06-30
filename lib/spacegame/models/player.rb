@@ -16,6 +16,7 @@ class Player < Renderable
     @x = x
     @y = y
     @angle = angle
+    @collidable = true
 
     # Substitute for server not having an image to work from
     @width = 100
@@ -53,6 +54,8 @@ class Player < Renderable
   end
 
   def update(dt)
+    old_x = x
+    old_y = y
     @x += Gosu::offset_x(@movement_angle, @velocity) * dt
     @y += Gosu::offset_y(@movement_angle, @velocity) * dt
 
@@ -61,6 +64,17 @@ class Player < Renderable
     end
     if @velocity < 0
       @velocity += DECELERATION * dt
+    end
+
+    @state.scene_controller.nearby(self).each do |object|
+      puts "Player vs #{object.class.to_s}: #{collides_with?(object)} #{object.collidable?}"
+      if collides_with?(object) && object.collidable?
+        @x = old_x
+        @y = old_y
+        @velocity = 0
+        puts 'BOOM'
+        break
+      end
     end
 
     return true

@@ -14,9 +14,10 @@ DONE Angle of velocity is stored, player moves along that angle
 DONE Velocity in another direction moves the angle of velocity
 DONE OSX Packaging/distribution
 DONE stars in background
-Larger space, camera follows player
-Barriers
+DONE Larger space, camera follows player
+DONE Barriers
 Scores, kills, deaths
+Bug: Velocity takes a long time to change direction even when stopped
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement

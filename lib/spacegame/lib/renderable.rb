@@ -8,6 +8,7 @@ class Renderable
     @destroyed = false
     @unique_id = @@unique_id_counter + 1
     @@unique_id_counter += 1
+    @collidable = false
   end
 
   def width
@@ -67,6 +68,10 @@ class Renderable
 
   def update(dt)
     false
+  end
+
+  def collidable?
+    @collidable
   end
 
   def collides_with?(renderable)

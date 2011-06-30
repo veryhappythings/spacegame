@@ -24,6 +24,7 @@ require_relative "spacegame/lib/network_server"
 require_relative "spacegame/models/packet_buffer"
 require_relative "spacegame/models/player"
 require_relative "spacegame/models/bullet"
+require_relative "spacegame/models/block"
 require_relative "spacegame/models/space_tile"
 
 require_relative "spacegame/messages/connect"

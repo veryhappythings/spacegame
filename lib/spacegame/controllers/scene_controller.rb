@@ -16,6 +16,9 @@ class SceneController
         end
       end
     end
+
+    # FIXME: Move level building somewhere sensible
+    register(Block.new(@state, 100, 100))
   end
 
   def register(object)
