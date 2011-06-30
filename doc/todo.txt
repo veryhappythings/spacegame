@@ -19,6 +19,9 @@ DONE Barriers
 DONE Bug: Velocity takes a long time to change direction even when stopped
 Scores, kills, deaths
 Picking up stuff, inventory
+Dropping stuff
+Crafting
+Populate space somehow, with asteroids, space junk etc
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement
