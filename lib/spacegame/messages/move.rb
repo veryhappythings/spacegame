@@ -10,6 +10,16 @@ class Move < Message
       #player.warp(player.x + x_movement, player.y + y_movement, player.angle + angle)
       player.velocity += up_move
       player.angle += angle
+
+      # Asteroids style movement
+      if up_move != 0
+        if player.angle > player.movement_angle
+          player.movement_angle += 1
+        elsif player.angle < player.movement_angle
+          player.movement_angle -= 1
+        end
+      end
+
       state.scene_controller.mark_as_dirty(player)
     end
   end

@@ -2,7 +2,8 @@ class Player < Renderable
   SPEED = 50
   DECELERATION = 10
 
-  attr_accessor :velocity, :angle
+  attr_accessor :velocity, :angle, :movement_angle
+
   def initialize(state, x, y, angle)
     super()
     @state = state
@@ -21,6 +22,7 @@ class Player < Renderable
     @height = 100
 
     @velocity = 0
+    @movement_angle = angle
   end
 
   def relative_to_absolute(x, y)
@@ -51,8 +53,8 @@ class Player < Renderable
   end
 
   def update(dt)
-    @x += Gosu::offset_x(@angle, @velocity) * dt
-    @y += Gosu::offset_y(@angle, @velocity) * dt
+    @x += Gosu::offset_x(@movement_angle, @velocity) * dt
+    @y += Gosu::offset_y(@movement_angle, @velocity) * dt
 
     if @velocity > 0
       @velocity -= DECELERATION * dt
