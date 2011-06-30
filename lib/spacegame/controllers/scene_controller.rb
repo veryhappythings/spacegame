@@ -12,7 +12,7 @@ class SceneController
     @level_objects = [].tap do |level_objects| # 800x600 - 4x3
       (-2..3).each do |x|
         (-2..2).each do |y|
-          level_objects << SpaceTile.new(@state, x * 200, y * 200)
+          level_objects << SpaceTile.new(@state, x * 200, y * 200, rand(3)*90)
         end
       end
     end
