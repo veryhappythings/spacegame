@@ -1,5 +1,3 @@
-ROOT = File.dirname(File.expand_path(__FILE__))
-
 require 'rubygems'
 require 'gosu'
 require 'logger'
@@ -14,32 +12,32 @@ class Utils
 end
 
 # Monkeypatches
-require "#{ROOT}/spacegame/lib/string"
+require_relative "spacegame/lib/string"
 
-require "#{ROOT}/spacegame/lib/message"
-require "#{ROOT}/spacegame/lib/point"
-require "#{ROOT}/spacegame/lib/renderable"
-require "#{ROOT}/spacegame/lib/state"
-require "#{ROOT}/spacegame/lib/network_client"
-require "#{ROOT}/spacegame/lib/network_server"
+require_relative "spacegame/lib/message"
+require_relative "spacegame/lib/point"
+require_relative "spacegame/lib/renderable"
+require_relative "spacegame/lib/state"
+require_relative "spacegame/lib/network_client"
+require_relative "spacegame/lib/network_server"
 
-require "#{ROOT}/spacegame/models/packet_buffer"
-require "#{ROOT}/spacegame/models/player"
-require "#{ROOT}/spacegame/models/bullet"
+require_relative "spacegame/models/packet_buffer"
+require_relative "spacegame/models/player"
+require_relative "spacegame/models/bullet"
 
-require "#{ROOT}/spacegame/messages/connect"
-require "#{ROOT}/spacegame/messages/create_object"
-require "#{ROOT}/spacegame/messages/move"
-require "#{ROOT}/spacegame/messages/warp"
-require "#{ROOT}/spacegame/messages/destroy"
+require_relative "spacegame/messages/connect"
+require_relative "spacegame/messages/create_object"
+require_relative "spacegame/messages/move"
+require_relative "spacegame/messages/warp"
+require_relative "spacegame/messages/destroy"
 
-require "#{ROOT}/spacegame/views/game_window"
+require_relative "spacegame/views/game_window"
 
-require "#{ROOT}/spacegame/controllers/states/menu_state"
-require "#{ROOT}/spacegame/controllers/states/playing_state"
-require "#{ROOT}/spacegame/controllers/states/server_state"
-require "#{ROOT}/spacegame/controllers/keyboard_controller"
-require "#{ROOT}/spacegame/controllers/scene_controller"
-require "#{ROOT}/spacegame/controllers/server"
-require "#{ROOT}/spacegame/controllers/client"
+require_relative "spacegame/controllers/states/menu_state"
+require_relative "spacegame/controllers/states/playing_state"
+require_relative "spacegame/controllers/states/server_state"
+require_relative "spacegame/controllers/keyboard_controller"
+require_relative "spacegame/controllers/scene_controller"
+require_relative "spacegame/controllers/server"
+require_relative "spacegame/controllers/client"
 

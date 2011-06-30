@@ -10,11 +10,11 @@ DONE Refactor how player move requests are handled
 DONE events know how to action themselves
 DONE bullet collision
 DONE player acceleration, velocity etc - asteroids type controls
-Angle of velocity is stored, player moves along that angle
-Velocity in another direction moves the angle of velocity
-Packaging/distribution
-Barriers
+DONE Angle of velocity is stored, player moves along that angle
+DONE Velocity in another direction moves the angle of velocity
+DONE OSX Packaging/distribution
 stars in background
+Barriers
 Larger space, camera follows player
 Scores, kills, deaths
 

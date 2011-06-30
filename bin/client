@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-$LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
-require 'spacegame'
+require_relative '../lib/spacegame'
 
 window = GameWindow.new
 window.show
