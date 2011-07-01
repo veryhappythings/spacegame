@@ -26,6 +26,7 @@ require_relative "spacegame/models/player"
 require_relative "spacegame/models/bullet"
 require_relative "spacegame/models/block"
 require_relative "spacegame/models/space_tile"
+require_relative "spacegame/models/spacejunk"
 
 require_relative "spacegame/messages/scores"
 require_relative "spacegame/messages/connect"
