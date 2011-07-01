@@ -16,6 +16,8 @@ class ServerSceneController
       junk = Spacejunk.new(@state, rand(1000)-500, rand(1000)-500)
       register_if_well_placed junk
     end
+
+    register(Enemy.new(@state, 200, 200, 0))
   end
 
   def register_if_well_placed(object)
@@ -63,8 +65,8 @@ class ServerSceneController
     end
   end
 
-  def player
-    @objects.find {|o| o.class == Player}
+  def players
+    @objects.find_all {|o| o.class == Player}
   end
 
   def nearby(object)

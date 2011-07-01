@@ -28,6 +28,10 @@ class CreateObject < Message
       junk = Spacejunk.new(state, self.x, self.y)
       junk.unique_id = self.unique_id
       state.scene_controller.register(junk)
+    when :enemy
+      enemy = Enemy.new(state, self.x, self.y, self.angle)
+      enemy.unique_id = self.unique_id
+      state.scene_controller.register(enemy)
     else
       Utils.logger.warn("I don't know how to create #{self.klass}")
     end

@@ -70,8 +70,8 @@ class Player < Renderable
     @x += @vx * dt
     @y += @vy * dt
 
-    @vx += Math.sin(degrees_to_radians(@angle)) * @thrust_direction
-    @vy -= Math.cos(degrees_to_radians(@angle)) * @thrust_direction
+    @vx += Math.sin(Utils.degrees_to_radians(@angle)) * @thrust_direction
+    @vy -= Math.cos(Utils.degrees_to_radians(@angle)) * @thrust_direction
     @thrust_direction = 0
 
     if @vx > 0
