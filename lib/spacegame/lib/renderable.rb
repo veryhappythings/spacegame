@@ -2,6 +2,7 @@ class Renderable
   @@unique_id_counter = 0
   attr_reader :x, :y, :angle
   attr_accessor :unique_id
+  attr_reader :creator
 
   def initialize(options={})
     @x = @y = @angle = 0.0
@@ -9,6 +10,7 @@ class Renderable
     @unique_id = @@unique_id_counter + 1
     @@unique_id_counter += 1
     @collidable = false
+    @creator = nil
   end
 
   def width

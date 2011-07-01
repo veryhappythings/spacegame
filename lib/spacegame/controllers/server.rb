@@ -1,5 +1,4 @@
 class SpacegameNetworkServer < NetworkServer
-  # Not yet sure how to attach sockets to particular players
   attr_accessor :clients
 
   def initialize(state, options={})

@@ -3,7 +3,7 @@ class CreateObject < Message
     case self.klass
     when :player
       # Only clients do this
-      player = Player.new(state, self.x, self.y, self.angle)
+      player = Player.new(state, self.x, self.y, self.angle, self.client_id)
       player.unique_id = self.unique_id
       if self.client_id == state.client_id
         state.player = player

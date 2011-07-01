@@ -5,8 +5,13 @@ class Connect < Message
     end
 
     state.server.clients[self.client_id] = self.timestamp
-    player = Player.new(state, 0, 0, 0)
+    player = Player.new(state, 0, 0, 0, self.client_id)
     state.scene_controller.register(player)
+
+    state.scores[self.client_id] = {
+      :kills => 0,
+      :deaths => 0
+    }
 
     state.server.broadcast_msg(player.to_msg(self.client_id, self.timestamp))
     state.scene_controller.objects.each do |object|

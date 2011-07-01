@@ -3,8 +3,9 @@ class Player < Renderable
   DECELERATION = 10
 
   attr_accessor :velocity, :angle, :movement_angle
+  attr_reader :client_id
 
-  def initialize(state, x, y, angle)
+  def initialize(state, x, y, angle, client_id)
     super()
     @state = state
     @window = state.window
@@ -17,6 +18,7 @@ class Player < Renderable
     @y = y
     @angle = angle
     @collidable = true
+    @client_id = client_id
 
     # Substitute for server not having an image to work from
     @width = 50
@@ -50,6 +52,10 @@ class Player < Renderable
   def hit_by(object)
     if object.is_a? Bullet
       damage(100)
+      if @health <= 0
+        @state.scores[self.client_id][:deaths] += 1
+        @state.scores[@state.scene_controller.find(object.creator).client_id][:kills] += 1
+      end
     end
   end
 

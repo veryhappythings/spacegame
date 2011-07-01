@@ -68,8 +68,10 @@ class PlayingState < State
     # Send events
     @client.update
 
-    @camera.x = @player.x
-    @camera.y = @player.y
+    if @player
+      @camera.x = @player.x
+      @camera.y = @player.y
+    end
     @scene_controller.visual_update(dt)
 
     end_time = Time.now.to_f
