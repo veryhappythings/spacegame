@@ -21,7 +21,7 @@ DONE Scores, kills, deaths - but not displayed anywhere!
 DONE Picking up stuff, inventory
 DONE Display inventory somehow
 DONE Refactor: Separate scene controllers for server and client
-Populate space somehow, with asteroids, space junk etc
+DONE Populate space somehow, with asteroids, space junk etc
 Crafting
 Dropping stuff
 Players respawn when they die

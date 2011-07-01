@@ -7,8 +7,26 @@ class ServerSceneController
     @window = @state.window
     @dirty_objects = []
 
-    register(Block.new(@state, 100, 100))
-    register(Spacejunk.new(@state, -50, -50))
+    (0..10).each do |i|
+      block = Block.new(@state, rand(1000)-500, rand(1000)-500)
+      register_if_well_placed block
+    end
+
+    (0..10).each do |i|
+      junk = Spacejunk.new(@state, rand(1000)-500, rand(1000)-500)
+      register_if_well_placed junk
+    end
+  end
+
+  def register_if_well_placed(object)
+    can_place = true
+    nearby(object).each do |nearby_object|
+      if object.collides_with? nearby_object
+        can_place = false
+        break
+      end
+    end
+    register(object) if can_place
   end
 
   def register(object)
