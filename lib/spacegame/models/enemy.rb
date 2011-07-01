@@ -28,6 +28,22 @@ class Enemy < Renderable
     @thrust_direction = 0
   end
 
+  def hit_by(object)
+    if object.is_a? Bullet
+      damage(100)
+      if @health <= 0
+        @state.scores[@state.scene_controller.find(object.creator).client_id][:kills] += 1
+      end
+    end
+  end
+
+  def damage(value)
+    @health -= value
+    if @health <= 0
+      destroy
+    end
+  end
+
   def update(dt)
     # AI - find player, move towards, fire
     nearest_player = nil
