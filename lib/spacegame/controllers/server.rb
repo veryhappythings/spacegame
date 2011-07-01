@@ -35,6 +35,10 @@ class SpacegameNetworkServer < NetworkServer
           :unique_id => obj.unique_id,
           :timestamp => @timestamp
         ))
+        broadcast_msg(Scores.new(
+          :scores => @state.scores,
+          :timestamp => @timestamp
+        ))
         @state.scene_controller.deregister(obj)
       else
         broadcast_msg(Warp.new(

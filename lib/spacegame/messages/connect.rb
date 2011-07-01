@@ -19,5 +19,10 @@ class Connect < Message
         state.server.send_msg(socket, object.to_msg(nil, self.timestamp))
       end
     end
+
+    state.server.send_msg(socket, Scores.new(
+      :scores => state.scores,
+      :timestamp => @timestamp
+    ))
   end
 end

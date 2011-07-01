@@ -8,8 +8,9 @@ class PlayingState < State
 
   attr_accessor :player
   attr_accessor :camera
+  attr_accessor :scores
 
-  ACCEPT_MESSAGES = [:create_object, :warp, :destroy]
+  ACCEPT_MESSAGES = [:create_object, :warp, :destroy, :scores]
 
   def initialize(window)
     @window = window
@@ -19,6 +20,7 @@ class PlayingState < State
 
     @timestamp = (Time.now.to_f * 100000).to_i
     @simulation_time = 0
+    @scores = {}
     @camera = Point.new(0, 0)
 
     @use_local_server = true
