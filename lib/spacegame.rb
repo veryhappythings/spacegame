@@ -43,6 +43,7 @@ require_relative "spacegame/controllers/states/playing_state"
 require_relative "spacegame/controllers/states/server_state"
 require_relative "spacegame/controllers/keyboard_controller"
 require_relative "spacegame/controllers/scene_controller"
+require_relative "spacegame/controllers/server_scene_controller"
 require_relative "spacegame/controllers/server"
 require_relative "spacegame/controllers/client"
 

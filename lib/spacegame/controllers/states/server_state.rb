@@ -5,7 +5,7 @@ class ServerState < State
   attr_accessor :scores
 
   def initialize
-    @scene_controller = SceneController.new(self)
+    @scene_controller = ServerSceneController.new(self)
     @server = nil
     @scores = {}
   end

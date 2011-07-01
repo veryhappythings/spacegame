@@ -8,19 +8,12 @@ class SceneController
     @objects = []
     @state = state
     @window = @state.window
-    @dirty_objects = []
     @level_objects = [].tap do |level_objects| # 800x600 - 4x3
       (-2..3).each do |x|
         (-2..2).each do |y|
           level_objects << SpaceTile.new(@state, x * 200, y * 200, rand(3)*90)
         end
       end
-    end
-
-    # FIXME: Move level building somewhere sensible
-    if state.is_a? ServerState
-      register(Block.new(@state, 100, 100))
-      register(Spacejunk.new(@state, -50, -50))
     end
   end
 
@@ -39,10 +32,6 @@ class SceneController
     @objects.each do |object|
       object.draw(camera)
     end
-  end
-
-  def mark_as_dirty(object)
-    @dirty_objects << object
   end
 
   def visual_update(dt)
@@ -66,16 +55,6 @@ class SceneController
   end
 
   def update(dt)
-    # Server relevant
-    updated_objects = Array.new(@dirty_objects).tap do |updated_objects|
-      @objects.each do |object|
-        if object.update(dt) || object.destroyed?
-          updated_objects << object
-        end
-      end
-    end
-    @dirty_objects = []
-    updated_objects
   end
 
   def send_event(event)
