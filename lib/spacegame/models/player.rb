@@ -2,7 +2,7 @@ class Player < Renderable
   SPEED = 50
   DECELERATION = 10
 
-  attr_accessor :velocity, :angle, :movement_angle
+  attr_accessor :velocity, :angle, :movement_angle, :inventory
   attr_reader :client_id
 
   def initialize(state, x, y, angle, client_id)
@@ -26,6 +26,8 @@ class Player < Renderable
 
     @velocity = 0
     @movement_angle = angle
+    @inventory = {}
+    @inventory.default = 0
   end
 
   def relative_to_absolute(x, y)
@@ -76,15 +78,27 @@ class Player < Renderable
     end
 
     @state.scene_controller.nearby(self).each do |object|
-      if collides_with?(object) && object.collidable?
-        @x = old_x
-        @y = old_y
-        @velocity = 0
+      if collides_with?(object)
+        if object.collidable?
+          @x = old_x
+          @y = old_y
+          @velocity = 0
+        end
+        object.hit_by(self)
         break
       end
     end
 
     return true
+  end
+
+  def pick_up(object)
+    @inventory[object.class.to_s.underscore.to_sym] += 1
+    @state.server.broadcast_msg(Inventory.new(
+      :client_id => @client_id,
+      :inventory => @inventory,
+      :timestamp => @state.server.timestamp
+    ))
   end
 end
 

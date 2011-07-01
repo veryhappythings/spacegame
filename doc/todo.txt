@@ -18,12 +18,14 @@ DONE Larger space, camera follows player
 DONE Barriers
 DONE Bug: Velocity takes a long time to change direction even when stopped
 DONE Scores, kills, deaths - but not displayed anywhere!
-Picking up stuff, inventory
+DONE Picking up stuff, inventory
+Display inventory somehow
 Dropping stuff
 Crafting
 Populate space somehow, with asteroids, space junk etc
 Players respawn when they die
 Enemies
+Display scores somewhere
 
 Bug: Server crashes when a player leaves.
 
@@ -31,3 +33,4 @@ Refactor: CreateObject#process contains client and server code
 Refactor: Player movement
 Refactor: Star field movement code
 Refactor: Separate scene controllers for server and client
+Refactor: Messages are sent from client, server, keyboard_controller and player - move to one place

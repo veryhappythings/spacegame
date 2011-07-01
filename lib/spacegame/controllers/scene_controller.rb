@@ -18,8 +18,10 @@ class SceneController
     end
 
     # FIXME: Move level building somewhere sensible
-    register(Block.new(@state, 100, 100))
-    register(Spacejunk.new(@state, -50, -50))
+    if state.is_a? ServerState
+      register(Block.new(@state, 100, 100))
+      register(Spacejunk.new(@state, -50, -50))
+    end
   end
 
   def register(object)

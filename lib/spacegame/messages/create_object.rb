@@ -22,7 +22,12 @@ class CreateObject < Message
       end
     when :block
       block = Block.new(state, self.x, self.y)
+      block.unique_id = self.unique_id
       state.scene_controller.register(block)
+    when :spacejunk
+      junk = Spacejunk.new(state, self.x, self.y)
+      junk.unique_id = self.unique_id
+      state.scene_controller.register(junk)
     else
       Utils.logger.warn("I don't know how to create #{self.klass}")
     end
