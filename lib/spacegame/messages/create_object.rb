@@ -20,6 +20,9 @@ class CreateObject < Message
       else
         bullet.unique_id = self.unique_id
       end
+    when :block
+      block = Block.new(state, self.x, self.y)
+      state.scene_controller.register(block)
     else
       Utils.logger.warn("I don't know how to create #{self.klass}")
     end
