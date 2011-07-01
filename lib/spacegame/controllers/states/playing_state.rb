@@ -33,6 +33,9 @@ class PlayingState < State
 
     @client_id = @timestamp.to_s
 
+    @font_size = 20
+    @font = Gosu::Font.new(@window, Gosu::default_font_name, @font_size)
+
     Utils.logger.info("Playing State init complete.")
   end
 
@@ -43,6 +46,13 @@ class PlayingState < State
 
   def draw
     @scene_controller.draw(@camera)
+
+    if @player
+      @player.inventory.each_key.each_with_index do |name, i|
+        @font.draw(name, 10, 20*i, 0)
+        @font.draw(@player.inventory[name], 150, 20*i, 0)
+      end
+    end
   end
 
   def update(dt)
@@ -82,7 +92,7 @@ class PlayingState < State
   end
 
   def handle_msg(msg)
-    Utils.logger.info("Client handling msg: #{msg.to_s}")
+    #Utils.logger.info("Client handling msg: #{msg.to_s}")
     if ACCEPT_MESSAGES.include? msg.name
       msg.process(self)
     else

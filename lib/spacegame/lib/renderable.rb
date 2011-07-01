@@ -79,6 +79,8 @@ class Renderable
   def collides_with?(renderable)
     if not renderable.kind_of?(Renderable)
       false
+    elsif renderable.destroyed?
+      false
     else
       !(bottom < renderable.top ||
         top > renderable.bottom ||
