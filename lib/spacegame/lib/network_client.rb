@@ -92,7 +92,7 @@ class NetworkClient
   end
 
   def send_msg(msg)
-    Utils.logger.info("Client sending message: #{msg}")
+    #Utils.logger.info("Client sending message: #{msg}")
     send_data(Marshal.dump(msg))
   end
 

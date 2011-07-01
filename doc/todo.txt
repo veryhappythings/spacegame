@@ -22,12 +22,12 @@ DONE Picking up stuff, inventory
 DONE Display inventory somehow
 DONE Refactor: Separate scene controllers for server and client
 DONE Populate space somehow, with asteroids, space junk etc
-Crafting
-Dropping stuff
-Players respawn when they die
+DONE Bug: Velocity doesn't change direction properly
 Enemies
+Players respawn when they die
+Dropping stuff
+Crafting
 Display scores somewhere
-
 Bug: Server crashes when a player leaves.
 
 Refactor: CreateObject#process contains client and server code

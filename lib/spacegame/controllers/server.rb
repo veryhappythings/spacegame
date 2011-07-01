@@ -56,7 +56,7 @@ class SpacegameNetworkServer < NetworkServer
 
   def on_msg(socket, msg)
     socket_id = @sockets.find_index {|s| s == socket}
-    Utils.logger.info("Server received message from #{socket_id}: #{msg}")
+    #Utils.logger.info("Server received message from #{socket_id}: #{msg}")
 
     case msg.name
     when :connect

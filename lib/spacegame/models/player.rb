@@ -3,6 +3,7 @@ class Player < Renderable
   DECELERATION = 10
 
   attr_accessor :velocity, :angle, :movement_angle, :inventory
+  attr_accessor :vx, :vy, :thrust_direction
   attr_reader :client_id
 
   def initialize(state, x, y, angle, client_id)
@@ -25,6 +26,8 @@ class Player < Renderable
     @height = 50
 
     @velocity = 0
+    @vx, @vy = 0, 0
+    @thrust_direction = 0
     @movement_angle = angle
     @inventory = {}
     @inventory.default = 0
@@ -64,17 +67,24 @@ class Player < Renderable
   def update(dt)
     old_x = x
     old_y = y
-    @x += Gosu::offset_x(@movement_angle, @velocity) * dt
-    @y += Gosu::offset_y(@movement_angle, @velocity) * dt
+    @x += @vx * dt
+    @y += @vy * dt
 
-    if @velocity > 0
-      @velocity -= DECELERATION * dt
+    @vx += Math.sin(degrees_to_radians(@angle)) * @thrust_direction
+    @vy -= Math.cos(degrees_to_radians(@angle)) * @thrust_direction
+    @thrust_direction = 0
+
+    if @vx > 0
+      @vx -= DECELERATION * dt
     end
-    if (-1..1).include?(@velocity)
-      @movement_angle = @angle
+    if @vy > 0
+      @vy -= DECELERATION * dt
     end
-    if @velocity < 0
-      @velocity += DECELERATION * dt
+    if @vx < 0
+      @vx += DECELERATION * dt
+    end
+    if @vy < 0
+      @vy += DECELERATION * dt
     end
 
     @state.scene_controller.nearby(self).each do |object|
@@ -82,7 +92,7 @@ class Player < Renderable
         if object.collidable?
           @x = old_x
           @y = old_y
-          @velocity = 0
+          @vx, @vy = 0, 0
         end
         object.hit_by(self)
         break
@@ -99,6 +109,10 @@ class Player < Renderable
       :inventory => @inventory,
       :timestamp => @state.server.timestamp
     ))
+  end
+
+  def degrees_to_radians(degrees)
+    return degrees * Math::PI / 180
   end
 end
 
