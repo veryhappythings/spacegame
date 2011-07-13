@@ -19,6 +19,17 @@ class ServerState < State
     @server.destroy(object)
   end
 
+  def create_object(klass, x, y, angle, creator)
+    @server.on_msg(@server.socket, CreateObject.new(
+      :klass => klass,
+      :x => x,
+      :y => y,
+      :angle => angle,
+      :timestamp => @server.timestamp,
+      :creator => creator
+    ))
+  end
+
   def window
     nil
   end

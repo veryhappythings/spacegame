@@ -56,10 +56,13 @@ class Player < Renderable
 
   def hit_by(object)
     if object.is_a? Bullet
+      attacker = @state.scene_controller.find(object.creator)
       damage(100)
       if @health <= 0
         @state.scores[self.client_id][:deaths] += 1
-        @state.scores[@state.scene_controller.find(object.creator).client_id][:kills] += 1
+        if attacker.respond_to? :client_id
+          @state.scores[attacker.client_id][:kills] += 1
+        end
       end
     end
   end

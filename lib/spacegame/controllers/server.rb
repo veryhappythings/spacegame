@@ -1,6 +1,7 @@
 class SpacegameNetworkServer < NetworkServer
   attr_accessor :clients
   attr_reader :timestamp
+  attr_reader :socket
 
   def initialize(state, options={})
     super(options)

@@ -60,7 +60,16 @@ class Enemy < Renderable
       @thrust_direction = 1
     end
 
-    # Movement
+    # Fire?
+    @state.create_object(
+      :bullet,
+      x,
+      y,
+      angle,
+      unique_id
+    )
+
+    # Normal update Movement
     old_x = x
     old_y = y
     @x += @vx * dt
