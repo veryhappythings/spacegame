@@ -1,6 +1,7 @@
 class Enemy < Renderable
   SPEED = 50
   DECELERATION = 10
+  FIRING_RATE = 3
 
   attr_accessor :velocity, :angle, :movement_angle, :inventory
   attr_accessor :vx, :vy, :thrust_direction
@@ -18,6 +19,7 @@ class Enemy < Renderable
     @y = y
     @angle = angle
     @collidable = true
+    @time_since_last_shot = 0
 
     # Substitute for server not having an image to work from
     @width = 50
@@ -61,13 +63,17 @@ class Enemy < Renderable
     end
 
     # Fire?
-    @state.create_object(
-      :bullet,
-      x,
-      y,
-      angle,
-      unique_id
-    )
+    if @time_since_last_shot > FIRING_RATE
+      @state.create_object(
+        :bullet,
+        x,
+        y,
+        angle,
+        unique_id
+      )
+      @time_since_last_shot = 0
+    end
+    @time_since_last_shot += dt
 
     # Normal update Movement
     old_x = x
