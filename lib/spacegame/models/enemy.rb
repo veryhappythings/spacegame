@@ -59,18 +59,21 @@ class Enemy < Renderable
     end
     if nearest_player
       @angle = Gosu::angle(@x, @y, nearest_player.x, nearest_player.y)
-      @thrust_direction = 1
+      distance = Gosu::distance(@x, @y, nearest_player.x, nearest_player.y)
+      if distance > 200
+        @thrust_direction = 1
+      end
     end
 
     # Fire?
     if @time_since_last_shot > FIRING_RATE
-      @state.create_object(
-        :bullet,
-        x,
-        y,
-        angle,
-        unique_id
-      )
+#      @state.create_object(
+#        :bullet,
+#        x,
+#        y,
+#        angle,
+#        unique_id
+#      )
       @time_since_last_shot = 0
     end
     @time_since_last_shot += dt
