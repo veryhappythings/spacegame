@@ -29,6 +29,8 @@ Dropping stuff
 Crafting
 Display scores somewhere
 Bug: Server crashes when a player leaves.
+Move world generation stuff into a module
+Mapping data format? Map storage system? save games? Persistent world?
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement
