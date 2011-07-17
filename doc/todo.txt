@@ -26,7 +26,7 @@ DONE Bug: Velocity doesn't change direction properly
 DONE Enemies
 DONE Refactor: Server app runs server state instead of Server
 DONE Refactor: Client runs local server as sub-state rather than controller - this way the server is always run as a state
-Players respawn when they die
+DONE Players respawn when they die
 Mapping data format? Map storage system? save games? Persistent world?
 Display scores somewhere
 Bug: Server crashes when a player leaves.
@@ -38,4 +38,4 @@ Crafting
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement
 Refactor: Star field movement code
-Refactor: Messages are sent from client, server, keyboard_controller and player - move to one place
+Refactor: Messages are sent from client, server, keyboard_controller and player - move to one place?

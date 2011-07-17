@@ -10,9 +10,21 @@ class ServerState < State
     @server = SpacegameNetworkServer.new(self)
 
     @scores = {}
+    @scheduled_messages = []
   end
 
   def update(dt)
+    to_delete = []
+    @scheduled_messages.each do |msg|
+      msg[:seconds] -= dt
+      if msg[:seconds] <= 0
+        msg[:message].options[:timestamp] = timestamp
+        @server.on_msg(@server.socket, msg[:message])
+        to_delete << msg
+      end
+    end
+    to_delete.each {|m| @scheduled_messages.delete(m)}
+
     updated_objects = @scene_controller.update(dt)
     @server.update(dt, updated_objects)
   end
@@ -33,8 +45,17 @@ class ServerState < State
     ))
   end
 
+  def schedule_message(message, seconds)
+    puts "Scheduled #{message} for #{seconds} time"
+    @scheduled_messages << {:message => message, :seconds => seconds}
+  end
+
   def start
     @server.start
+  end
+
+  def timestamp
+    @server.timestamp
   end
 
   def window

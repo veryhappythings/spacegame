@@ -2,20 +2,26 @@ class CreateObject < Message
   def process(state)
     case self.klass
     when :player
-      # Only clients do this
       player = Player.new(state, self.x, self.y, self.angle, self.client_id)
-      player.unique_id = self.unique_id
-      if self.client_id == state.client_id
-        # Respawn case
-        if state.player
-          state.keyboard_controller.deregister(state.player)
-          # Should always be a redundant call, but might as well double-check
-          state.scene_controller.deregister(state.player)
-        end
+      if state.is_a? PlayingState # Client only code
+        player.unique_id = self.unique_id
+        if self.client_id == state.client_id
+          # Respawn case
+          if state.player
+            state.keyboard_controller.deregister(state.player)
+            # Should always be a redundant call, but might as well double-check
+            state.scene_controller.deregister(state.player)
+          end
 
-        state.player = player
-        state.keyboard_controller.register(player)
+          state.player = player
+          state.keyboard_controller.register(player)
+        end
       end
+
+      if state.is_a? ServerState
+        state.server.broadcast_msg(player.to_msg(self.client_id, self.timestamp))
+      end
+
       state.scene_controller.register(player)
     when :bullet
       # Clients and servers both do this

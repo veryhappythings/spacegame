@@ -1,7 +1,7 @@
 class Move < Message
   def process(state, simulation_time)
     player = state.scene_controller.find(self.unique_id)
-    if player
+    if player && !player.destroyed?
       up_move = self.up_move
       angle = self.angle
       # Only up_move is used because left/right is controlled by angle

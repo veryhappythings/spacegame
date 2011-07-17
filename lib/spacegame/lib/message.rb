@@ -1,4 +1,6 @@
 class Message
+  attr_accessor :options
+
   def initialize(options={})
     @options = options
   end

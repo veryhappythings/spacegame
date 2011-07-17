@@ -66,7 +66,7 @@ class ServerSceneController
   end
 
   def players
-    @objects.find_all {|o| o.class == Player}
+    @objects.find_all {|o| o.class == Player && !o.destroyed?}
   end
 
   def nearby(object)

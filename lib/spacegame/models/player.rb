@@ -1,6 +1,7 @@
 class Player < Renderable
   SPEED = 50
   DECELERATION = 10
+  RESPAWN_DELAY = 3 # In seconds
 
   attr_accessor :velocity, :angle, :movement_angle, :inventory
   attr_accessor :vx, :vy, :thrust_direction
@@ -45,6 +46,12 @@ class Player < Renderable
     rel_x = x - @state.camera.x + @window.width / 2
     rel_y = y - @state.camera.y + @window.height / 2
     return rel_x, rel_y
+  end
+
+  def destroy
+    super
+    @x, @y, @angle = 0, 0, 0
+    @state.schedule_message(self.to_msg(self.client_id, @state.timestamp), RESPAWN_DELAY)
   end
 
   def damage(value)

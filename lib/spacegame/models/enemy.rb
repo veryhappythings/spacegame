@@ -58,11 +58,15 @@ class Enemy < Renderable
       end
     end
     if nearest_player
-      @angle = Gosu::angle(@x, @y, nearest_player.x, nearest_player.y)
-      distance = Gosu::distance(@x, @y, nearest_player.x, nearest_player.y)
-      if distance > 200
-        @thrust_direction = 1
-      end
+      target_x, target_y = nearest_player.x, nearest_player.y
+    else
+      target_x, target_y = 1000, 1000
+    end
+    @angle = Gosu::angle(@x, @y, target_x, target_y)
+    distance = Gosu::distance(@x, @y, target_x, target_y)
+
+    if distance > 200
+      @thrust_direction = 1
     end
 
     # Fire?
