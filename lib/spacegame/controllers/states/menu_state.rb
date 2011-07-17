@@ -5,6 +5,7 @@ class MenuState < State
   attr_reader :menu_items, :current_item
 
   def initialize(window)
+    super
     @window = window
 
     @custom_message = ''

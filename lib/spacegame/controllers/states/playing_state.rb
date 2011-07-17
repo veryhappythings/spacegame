@@ -13,25 +13,27 @@ class PlayingState < State
   ACCEPT_MESSAGES = [:create_object, :warp, :destroy, :scores, :inventory]
 
   def initialize(window)
+    super
     @window = window
-
-    @keyboard_controller = KeyboardController.new(self)
-    @scene_controller = SceneController.new(self)
 
     @timestamp = (Time.now.to_f * 100000).to_i
     @simulation_time = 0
     @scores = {}
     @camera = Point.new(0, 0)
+    @client_id = @timestamp.to_s
+
+    @keyboard_controller = KeyboardController.new(self)
+    @scene_controller = SceneController.new(self)
 
     @use_local_server = true
     if @use_local_server
-      @server = SpacegameNetworkServer.new(ServerState.new)
-      @server.start
+      @server_state = ServerState.new
+      add_substate @server_state
+      @server_state.start
     end
     @client = SpacegameNetworkClient.new(self)
     @client.connect
 
-    @client_id = @timestamp.to_s
 
     @font_size = 20
     @font = Gosu::Font.new(@window, Gosu::default_font_name, @font_size)
@@ -45,6 +47,7 @@ class PlayingState < State
   end
 
   def draw
+    super()
     @scene_controller.draw(@camera)
 
     if @player
@@ -55,27 +58,29 @@ class PlayingState < State
     end
   end
 
+  def connect
+    @connect_request_sent = true
+    if @use_local_server
+      @server_state.update(@simulation_time)
+    end
+    @client.update
+    @client.send_msg(Connect.new(:client_id => @client_id, :timestamp => @timestamp))
+  end
+
   def update(dt)
     start_time = Time.now.to_f
 
     # Send events
     if !@connect_request_sent
-      @connect_request_sent = true
-      if @use_local_server
-        @server.update(@simulation_time)
-      end
-      @client.update
-      @client.send_msg(Connect.new(:client_id => @client_id, :timestamp => @timestamp))
+      connect
     end
 
     @keyboard_controller.update(dt).each do |event|
       @client.send_msg(event)
     end
 
-    # Receive events
-    if @use_local_server
-      @server.update(@simulation_time)
-    end
+    # Execute substates
+    super(dt)
 
     # Send events
     @client.update
@@ -102,10 +107,12 @@ class PlayingState < State
 
   # Controls
   def button_down(id)
+    super
     @keyboard_controller.button_down(id)
   end
 
   def button_up(id)
+    super
     @keyboard_controller.button_up(id)
   end
 end

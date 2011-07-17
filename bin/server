@@ -4,12 +4,12 @@ require 'rubygems'
 $LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
 require 'spacegame'
 
-server = SpacegameNetworkServer.new(ServerState.new)
-server.start
+state = ServerState.new
+state.start
 simulation_time = 0
 while true
   start_time = Time.now.to_f
-  server.update(simulation_time)
+  state.update(simulation_time)
   sleep(1.0/30) # limit ticks per second on server
   end_time = Time.now.to_f
   simulation_time = end_time - start_time

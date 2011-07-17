@@ -23,14 +23,17 @@ DONE Display inventory somehow
 DONE Refactor: Separate scene controllers for server and client
 DONE Populate space somehow, with asteroids, space junk etc
 DONE Bug: Velocity doesn't change direction properly
-Enemies
+DONE Enemies
+DONE Refactor: Server app runs server state instead of Server
+DONE Refactor: Client runs local server as sub-state rather than controller - this way the server is always run as a state
 Players respawn when they die
-Dropping stuff
-Crafting
+Mapping data format? Map storage system? save games? Persistent world?
 Display scores somewhere
 Bug: Server crashes when a player leaves.
 Move world generation stuff into a module
-Mapping data format? Map storage system? save games? Persistent world?
+Dropping stuff
+Crafting
+
 
 Refactor: CreateObject#process contains client and server code
 Refactor: Player movement

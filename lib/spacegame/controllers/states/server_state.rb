@@ -5,13 +5,16 @@ class ServerState < State
   attr_accessor :scores
 
   def initialize
+    super
     @scene_controller = ServerSceneController.new(self)
-    @server = nil
+    @server = SpacegameNetworkServer.new(self)
+
     @scores = {}
   end
 
   def update(dt)
-    @scene_controller.update(dt)
+    updated_objects = @scene_controller.update(dt)
+    @server.update(dt, updated_objects)
   end
 
   def destroy(object)
@@ -28,6 +31,10 @@ class ServerState < State
       :timestamp => @server.timestamp,
       :creator => creator
     ))
+  end
+
+  def start
+    @server.start
   end
 
   def window

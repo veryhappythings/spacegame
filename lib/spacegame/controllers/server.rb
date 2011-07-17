@@ -6,7 +6,6 @@ class SpacegameNetworkServer < NetworkServer
   def initialize(state, options={})
     super(options)
     @state = state
-    @state.server = self
     @clients = {}
     @simulation_time = 0
     @timestamp = (Time.now.to_f * 100000).to_i
@@ -17,7 +16,7 @@ class SpacegameNetworkServer < NetworkServer
     super(socket)
   end
 
-  def update(simulation_time)
+  def update(simulation_time, updated_objects)
     super()
     @timestamp = (Time.now.to_f * 100000).to_i
 
@@ -30,7 +29,6 @@ class SpacegameNetworkServer < NetworkServer
       @pending_move_messages.delete msg
     end
 
-    updated_objects = @state.update(simulation_time)
     updated_objects.each do |obj|
       if obj.destroyed?
         broadcast_msg(Destroy.new(
