@@ -67,13 +67,13 @@ class Enemy < Renderable
 
     # Fire?
     if @time_since_last_shot > FIRING_RATE
-#      @state.create_object(
-#        :bullet,
-#        x,
-#        y,
-#        angle,
-#        unique_id
-#      )
+      @state.create_object(
+        :bullet,
+        x,
+        y,
+        angle,
+        unique_id
+      )
       @time_since_last_shot = 0
     end
     @time_since_last_shot += dt
