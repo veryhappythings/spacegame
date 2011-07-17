@@ -9,7 +9,7 @@ describe 'Player Movement' do
     end
 
     after :each do
-      if server = @window.current_game_state.server
+      if server = @window.current_game_state.server_state.server
         server.stop
       end
       @window.close
@@ -19,6 +19,9 @@ describe 'Player Movement' do
     it 'should allow me to move up by pressing W' do
       @window.current_game_state.scene_controller.player.y.should == 0
       @window.button_down(Gosu::Button::KbW)
+      # Urgh. Messy. Think the velocity makes this take so long.
+      @window.update
+      @window.update
       @window.update
       @window.current_game_state.scene_controller.player.y.should < 0
     end

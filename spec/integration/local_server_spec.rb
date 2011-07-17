@@ -6,7 +6,7 @@ describe 'Playing with a local server' do
   end
 
   after :each do
-    if server = @window.current_game_state.server
+    if server = @window.current_game_state.server_state.server
       server.stop
     end
     @window.close
@@ -16,7 +16,7 @@ describe 'Playing with a local server' do
     @window.current_game_state.select_item 'new game'
     @window.button_down(Gosu::Button::KbReturn)
     @window.current_game_state.class.should == PlayingState
-    server = @window.current_game_state.server
+    server = @window.current_game_state.server_state.server
     server.class.should == SpacegameNetworkServer
 end
 
@@ -24,7 +24,7 @@ end
     before :each do
       @window = GameWindow.new
       @window.new_game!
-      @server = @window.current_game_state.server
+      @server = @window.current_game_state.server_state.server
     end
 
     context 'after one update' do

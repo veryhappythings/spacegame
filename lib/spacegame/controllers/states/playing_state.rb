@@ -3,7 +3,7 @@ class PlayingState < State
   attr_reader :keyboard_controller
   attr_reader :scene_controller
   attr_reader :timestamp, :simulation_time
-  attr_reader :server, :client
+  attr_reader :server_state, :client
   attr_reader :client_id
 
   attr_accessor :player

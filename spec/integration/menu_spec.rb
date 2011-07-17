@@ -7,7 +7,7 @@ describe 'Menu' do
     end
 
     after :each do
-      if server = @window.current_game_state.server
+      if server = @window.current_game_state.server_state.server
         server.stop
       end
       @window.close
@@ -34,7 +34,7 @@ describe 'Menu' do
     end
 
     after :each do
-      if server = @window.current_game_state.server
+      if server = @window.current_game_state.server_state.server
         server.stop
       end
       @window.close
