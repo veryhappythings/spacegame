@@ -6,6 +6,13 @@ class CreateObject < Message
       player = Player.new(state, self.x, self.y, self.angle, self.client_id)
       player.unique_id = self.unique_id
       if self.client_id == state.client_id
+        # Respawn case
+        if state.player
+          state.keyboard_controller.deregister(state.player)
+          # Should always be a redundant call, but might as well double-check
+          state.scene_controller.deregister(state.player)
+        end
+
         state.player = player
         state.keyboard_controller.register(player)
       end
