@@ -27,12 +27,14 @@ DONE Enemies
 DONE Refactor: Server app runs server state instead of Server
 DONE Refactor: Client runs local server as sub-state rather than controller - this way the server is always run as a state
 DONE Players respawn when they die
-Mapping data format? Map storage system? save games? Persistent world?
-Display scores somewhere
 Bug: Server crashes when a player leaves.
+Mapping data format? Map storage system? save games? Persistent world?
+A better, predictable star-field.
+Display scores somewhere
 Move world generation stuff into a module
 Dropping stuff
 Crafting
+Bug: Player can spawn on top of things
 
 
 Refactor: CreateObject#process contains client and server code
