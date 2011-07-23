@@ -14,16 +14,16 @@ class ServerState < State
   end
 
   def update(dt)
-    to_delete = []
-    @scheduled_messages.each do |msg|
-      msg[:seconds] -= dt
-      if msg[:seconds] <= 0
-        msg[:message].options[:timestamp] = timestamp
-        @server.on_msg(@server.socket, msg[:message])
-        to_delete << msg
+    [].tap do |processed_messages|
+      @scheduled_messages.each do |msg|
+        msg[:seconds] -= dt
+        if msg[:seconds] <= 0
+          msg[:message].options[:timestamp] = timestamp
+          @server.on_msg(@server.socket, msg[:message])
+          processed_messages << msg
+        end
       end
-    end
-    to_delete.each {|m| @scheduled_messages.delete(m)}
+    end.each {|m| @scheduled_messages.delete(m)}
 
     updated_objects = @scene_controller.update(dt)
     @server.update(dt, updated_objects)
