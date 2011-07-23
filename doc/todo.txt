@@ -27,7 +27,8 @@ DONE Enemies
 DONE Refactor: Server app runs server state instead of Server
 DONE Refactor: Client runs local server as sub-state rather than controller - this way the server is always run as a state
 DONE Players respawn when they die
-Bug: Server crashes when a player leaves.
+DONE Bug: Server crashes when a player leaves.
+Bug: Reconnecting to a server after leaving doesn't work
 Mapping data format? Map storage system? save games? Persistent world?
 A better, predictable star-field.
 Display scores somewhere

@@ -70,8 +70,8 @@ class NetworkServer
           on_data(socket, packet)
         rescue Errno::ECONNABORTED, Errno::ECONNRESET
           @packet_buffers[socket] = nil
-
           on_disconnect(socket)
+          @sockets.delete socket
         end
       end
     end
@@ -81,10 +81,12 @@ class NetworkServer
   def on_data(socket, data)
     buffer = @packet_buffers[socket]
 
-    buffer.buffer_data data
+    if buffer
+      buffer.buffer_data data
 
-    while packet = buffer.next_packet
-      on_msg(socket, Marshal.load(packet))
+      while packet = buffer.next_packet
+        on_msg(socket, Marshal.load(packet))
+      end
     end
   end
   def on_msg(socket, msg)
