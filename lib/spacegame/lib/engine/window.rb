@@ -4,7 +4,6 @@ class GameWindow < Gosu::Window
 
     # State setup
     @state_stack = []
-    @state_stack << MenuState.new(self)
 
     @current_time = Gosu::milliseconds
   end
@@ -24,17 +23,6 @@ class GameWindow < Gosu::Window
       close
     end
     old_state
-  end
-
-  def in_game?
-    @state_stack.find {|state| state.class == PlayingState}
-  end
-
-  def new_game!
-    @state_stack = [
-      MenuState.new(self),
-      PlayingState.new(self)
-    ]
   end
 
   # Game loop
