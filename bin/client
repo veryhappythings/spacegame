@@ -3,5 +3,5 @@
 require 'rubygems'
 require_relative '../lib/spacegame'
 
-window = GameWindow.new
+window = SpacegameWindow.new
 window.show

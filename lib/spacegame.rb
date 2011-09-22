@@ -18,6 +18,9 @@ end
 # Monkeypatches
 require_relative "spacegame/lib/string"
 
+
+require_relative "spacegame/lib/engine/window"
+
 require_relative "spacegame/lib/message"
 require_relative "spacegame/lib/point"
 require_relative "spacegame/lib/renderable"
